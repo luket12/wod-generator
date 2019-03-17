@@ -45,20 +45,19 @@ class WorkoutGenerator
 
             foreach ($dataStore->getUsers() as $user) {
                 $exercisePicker = new ExercisePicker($dataStore->getExercises());
+                $numBreaks = ($user->getLevel() === 'beginner') ? 4 : 2;
 
-                if ($exercisePicker->userNeedsbreak($user, $currentSet, $setTotal)) {
+                if ($exercisePicker->userNeedsbreak($user, $currentSet, $setTotal, $numBreaks)) {
                     $dataStore->addBreakForUser($user);
                 } else {
-
                     $exercise = $exercisePicker->pickExercise($user, $currentSet);
 
-                    $exercise = $exercisePicker->applyExerciseLimit($exercise, $dataStore->getUsers(), $exercisePicker->getExercises(), $currentSet);
+                    $exercise = $exercisePicker->applyExerciseLimit($exercise, $dataStore->getUsers(), $currentSet);
 
                     $dataStore->addExerciseSetForUser($user, $exercise, $currentSet, $startTime, $endTime);
                 }
             }
         }
-
         dd($dataStore);
 
         return true;

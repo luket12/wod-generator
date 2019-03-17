@@ -38,15 +38,13 @@ class ExercisePicker
     }
 
     /**
+     * @param User $user
      * @param $set
      * @param $setTotal
-     * @param $userType
      * @return bool
      */
-    public function userNeedsBreak($set, $setTotal, $userType)
+    public function userNeedsBreak(User $user, $set, $setTotal, $numBreaks): bool
     {
-        $numBreaks = ($userType === 'beginner') ? 4 : 2;
-
         // Algorithm for applying breaks at a suitable time during the workout
         if (($set + 1) % ((int) floor($setTotal / ($numBreaks + 1))) === 0) {
             if ($set < ($setTotal - 1)) {
@@ -58,17 +56,9 @@ class ExercisePicker
     }
 
     /**
-     * @param array $exercises
-     * @return Exercise
-     */
-    public static function getRandomExerciseForUser(array $exercises): Exercise
-    {
-        $exercise = $exercises[array_rand($exercises)];
-
-        return $exercise;
-    }
-
-    /**
+     * Checks that the exercise in the previous workout set is not the same type
+     * replacing it with a different exercise type
+     *
      * @param $set
      * @param Exercise $exercise
      * @param array $workoutSets
@@ -77,15 +67,15 @@ class ExercisePicker
      */
     public function disallowDoubleExercisesOfType($set, Exercise $exercise, array $workoutSets, $exerciseType): Exercise
     {
-        // exercises of this type cannot precede one another
+        // sanity check to avoid offset issue
         if ($set > 1 && $exercise->getType() === $exerciseType) {
-            // two less index as the array index starts at 0
+            // check -2 index to account for 0 array index
             $previousSetExercise = $workoutSets[$set-2];
 
-            // check the previous exercise was not also cardio and choose new one until its not cardio
+            // check the previous exercise was not also the same type and choose new one
             if ($previousSetExercise !== null && $previousSetExercise->getExercise()->getType() === $exerciseType) {
                 while ($exercise->getType() === $exerciseType) {
-                    $exercise = $this->exercises[array_rand($this->exercises)];
+                    $exercise = $this->getRandomExercise();
                 }
             }
         }
@@ -108,11 +98,19 @@ class ExercisePicker
 
             // If the beginner has done hand stands once already, change exercise until not hand stand anymore
             while ($handStandTotal >= 1 && $exercise->getName() === 'Hand Stand') {
-                $exercise = $this->exercises[array_rand($this->exercises)];
+                $exercise = $this->getRandomExercise();
             }
         }
 
         return $exercise;
+    }
+
+    /**
+     * @return Exercise
+     */
+    public function getRandomExercise(): Exercise
+    {
+        return $this->exercises[array_rand($this->exercises)];
     }
 
     /**
@@ -131,12 +129,11 @@ class ExercisePicker
 
     /**
      * @param Exercise $exercise
-     * @param array $exercises
      * @param array $userStore
      * @param $currentSet
      * @return Exercise
      */
-    public static function applyExerciseLimit(Exercise $exercise, array $userStore, array $exercises, $currentSet): Exercise
+    public function applyExerciseLimit(Exercise $exercise, array $userStore, $currentSet): Exercise
     {
         // Check the exercise has a limit of users already using the equipment
         if ($currentSet > 0 && $exercise->hasLimit()) {
@@ -157,7 +154,7 @@ class ExercisePicker
 
             // Pick a new exercise to use if the limit has been exceeded for that exercise
             if (count($users) === $exercise->getLimit()) {
-                $exercise = $exercises[array_rand($exercises)];
+                $exercise = $this->getRandomExercise();
             }
         }
 
@@ -173,7 +170,7 @@ class ExercisePicker
     {
         $usersWorkout = $user->getWorkout()->getWorkoutSets();
 
-        $exercise = $this->getRandomExerciseForUser($this->exercises);
+        $exercise = $this->getRandomExercise($this->exercises);
 
         $exercise = $this->applyHandstandRule($user, $exercise, $usersWorkout);
 
