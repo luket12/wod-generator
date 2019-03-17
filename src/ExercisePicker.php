@@ -73,7 +73,7 @@ class ExercisePicker
      * @param $exerciseType
      * @return Exercise
      */
-    public static function disallowDoubleExercisesOfType($set, Exercise $exercise, array $exercises, array $workoutSets, $exerciseType): Exercise
+    public function disallowDoubleExercisesOfType($set, Exercise $exercise, array $workoutSets, $exerciseType): Exercise
     {
         // exercises of this type cannot precede one another
         if ($set > 1 && $exercise->getType() === $exerciseType) {
@@ -83,7 +83,7 @@ class ExercisePicker
             // check the previous exercise was not also cardio and choose new one until its not cardio
             if ($previousSetExercise !== null && $previousSetExercise->getExercise()->getType() === $exerciseType) {
                 while ($exercise->getType() === $exerciseType) {
-                    $exercise = $exercises[array_rand($exercises)];
+                    $exercise = $this->exercises[array_rand($this->exercises)];
                 }
             }
         }
@@ -91,7 +91,7 @@ class ExercisePicker
         return $exercise;
     }
 
-    public static function applyHandstandRule(User $user, Exercise $exercise, array $exercises, array $workoutSets): Exercise
+    public function applyHandstandRule(User $user, Exercise $exercise, array $workoutSets): Exercise
     {
         // Beginners cannot do handstands more than once
         if ($user->getLevel() === 'beginner' && $exercise->getName() ==='Hand Stand') {
@@ -100,7 +100,7 @@ class ExercisePicker
 
             // If the beginner has done hand stands once already, change exercise until not hand stand anymore
             while ($handStandTotal >= 1 && $exercise->getName() === 'Hand Stand') {
-                $exercise = $exercises[array_rand($exercises)];
+                $exercise = $this->exercises[array_rand($this->exercises)];
             }
         }
 
@@ -162,9 +162,9 @@ class ExercisePicker
 
         $exercise = $this->getRandomExerciseForUser($this->exercises);
 
-        $exercise = $this->applyHandstandRule($user, $exercise, $this->exercises, $usersWorkout);
+        $exercise = $this->applyHandstandRule($user, $exercise, $usersWorkout);
 
-        $exercise = $this->disallowDoubleExercisesOfType($currentSet, $exercise, $this->exercises, $usersWorkout, 'cardio');
+        $exercise = $this->disallowDoubleExercisesOfType($currentSet, $exercise, $usersWorkout, 'cardio');
 
         return $exercise;
     }
