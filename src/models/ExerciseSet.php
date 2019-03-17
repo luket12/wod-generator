@@ -6,9 +6,21 @@ use DateTime;
 
 class ExerciseSet
 {
+    /**
+     * @var Exercise
+     */
     private $exercise;
+    /**
+     * @var
+     */
     private $setNumber;
+    /**
+     * @var DateTime
+     */
     private $startTime;
+    /**
+     * @var DateTime
+     */
     private $endTime;
 
     /**

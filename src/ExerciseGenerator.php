@@ -15,6 +15,9 @@ use DateTime;
  */
 class ExerciseGenerator
 {
+    /**
+     * @var WorkoutStore
+     */
     private $dataStore;
 
     public function __construct(WorkoutStore $dataStore)

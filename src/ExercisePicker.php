@@ -7,6 +7,9 @@ use Wod\Models\User;
 
 class ExercisePicker
 {
+    /**
+     * @var
+     */
     private $exercises;
 
     /**
@@ -68,7 +71,6 @@ class ExercisePicker
     /**
      * @param $set
      * @param Exercise $exercise
-     * @param array $exercises
      * @param array $workoutSets
      * @param $exerciseType
      * @return Exercise
@@ -91,6 +93,12 @@ class ExercisePicker
         return $exercise;
     }
 
+    /**
+     * @param User $user
+     * @param Exercise $exercise
+     * @param array $workoutSets
+     * @return Exercise
+     */
     public function applyHandstandRule(User $user, Exercise $exercise, array $workoutSets): Exercise
     {
         // Beginners cannot do handstands more than once
@@ -156,6 +164,11 @@ class ExercisePicker
         return $exercise;
     }
 
+    /**
+     * @param $user
+     * @param $currentSet
+     * @return Exercise
+     */
     public function pickExercise($user, $currentSet)
     {
         $usersWorkout = $user->getWorkout()->getWorkoutSets();

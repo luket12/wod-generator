@@ -4,8 +4,17 @@ namespace Wod\Models;
 
 class User
 {
+    /**
+     * @var
+     */
     private $name;
+    /**
+     * @var
+     */
     private $level;
+    /**
+     * @var Workout
+     */
     private $workout;
 
     public function __construct($name, $level, Workout $workout)

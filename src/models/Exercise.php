@@ -4,8 +4,17 @@ namespace Wod\Models;
 
 class Exercise
 {
+    /**
+     * @var String
+     */
     private $name;
+    /**
+     * @var String
+     */
     private $type;
+    /**
+     * @var Int
+     */
     private $limit;
 
     public function __construct(String $name, String $type, Int $limit)

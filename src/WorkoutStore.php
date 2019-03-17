@@ -15,7 +15,13 @@ use Wod\Models\Workout;
  */
 class WorkoutStore
 {
+    /**
+     * @var
+     */
     private $users;
+    /**
+     * @var
+     */
     private $exercises;
 
     /**
