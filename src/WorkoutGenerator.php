@@ -13,7 +13,7 @@ use DateTime;
  *
  * Class Wod
  */
-class ExerciseGenerator
+class WorkoutGenerator
 {
     /**
      * @var WorkoutStore

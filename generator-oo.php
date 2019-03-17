@@ -9,7 +9,7 @@
 // todo: 1H refactor
 // todo: 30min Abstract away the logger
 
-use Wod\ExerciseGenerator;
+use Wod\WorkoutGenerator;
 use Wod\WorkoutStore;
 
 require 'vendor/autoload.php';
@@ -106,6 +106,6 @@ if (isset($argv)) {
 }
 
 $dataStore = new WorkoutStore($userData, $exerciseData);
-$workoutOfTheDay = new ExerciseGenerator($dataStore);
+$workoutOfTheDay = new WorkoutGenerator($dataStore);
 $workoutOfTheDay->generate($numSets, $setTimeSeconds);
 
