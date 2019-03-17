@@ -43,7 +43,7 @@ class ExercisePicker
      * @param $userType
      * @return bool
      */
-    public static function isBreak($set, $setTotal, $userType)
+    public function userNeedsBreak($set, $setTotal, $userType)
     {
         $numBreaks = ($userType === 'beginner') ? 4 : 2;
 

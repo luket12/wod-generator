@@ -44,10 +44,11 @@ class WorkoutGenerator
             $dataStore = $this->getDataStore();
 
             foreach ($dataStore->getUsers() as $user) {
-                if (ExercisePicker::isBreak($currentSet, $setTotal, $user->getLevel())) {
+                $exercisePicker = new ExercisePicker($dataStore->getExercises());
+
+                if ($exercisePicker->userNeedsbreak($user, $currentSet, $setTotal)) {
                     $dataStore->addBreakForUser($user);
                 } else {
-                    $exercisePicker = new ExercisePicker($dataStore->getExercises());
 
                     $exercise = $exercisePicker->pickExercise($user, $currentSet);
 
