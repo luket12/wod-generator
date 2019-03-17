@@ -5,7 +5,6 @@ namespace Wod;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DateTime;
-use stdClass;
 
 /**
  * This class will generate the output for the workout of the day
