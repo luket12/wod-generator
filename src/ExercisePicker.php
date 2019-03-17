@@ -7,6 +7,33 @@ use Wod\Models\User;
 
 class ExercisePicker
 {
+    private $exercises;
+
+    /**
+     * ExercisePicker constructor.
+     * @param $exercises
+     */
+    public function __construct($exercises)
+    {
+        $this->exercises = $exercises;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExercises()
+    {
+        return $this->exercises;
+    }
+
+    /**
+     * @param mixed $exercises
+     */
+    public function setExercises($exercises): void
+    {
+        $this->exercises = $exercises;
+    }
+
     /**
      * @param $set
      * @param $setTotal
@@ -43,19 +70,19 @@ class ExercisePicker
      * @param Exercise $exercise
      * @param array $exercises
      * @param array $workoutSets
+     * @param $exerciseType
      * @return Exercise
      */
-    public static function applyCardioRule($set, Exercise $exercise, array $exercises, array $workoutSets): Exercise
+    public static function disallowDoubleExercisesOfType($set, Exercise $exercise, array $exercises, array $workoutSets, $exerciseType): Exercise
     {
-        // todo: Pass any type in
-        // Cardio exercises cannot precede one another
-        if ($set > 1 && $exercise->getType() === 'cardio') {
+        // exercises of this type cannot precede one another
+        if ($set > 1 && $exercise->getType() === $exerciseType) {
             // two less index as the array index starts at 0
             $previousSetExercise = $workoutSets[$set-2];
 
             // check the previous exercise was not also cardio and choose new one until its not cardio
-            if ($previousSetExercise !== null && $previousSetExercise->getExercise()->getType() === 'cardio') {
-                while ($exercise->getType() === 'cardio') {
+            if ($previousSetExercise !== null && $previousSetExercise->getExercise()->getType() === $exerciseType) {
+                while ($exercise->getType() === $exerciseType) {
                     $exercise = $exercises[array_rand($exercises)];
                 }
             }
@@ -125,6 +152,19 @@ class ExercisePicker
                 $exercise = $exercises[array_rand($exercises)];
             }
         }
+
+        return $exercise;
+    }
+
+    public function pickExercise($user, $currentSet)
+    {
+        $usersWorkout = $user->getWorkout()->getWorkoutSets();
+
+        $exercise = $this->getRandomExerciseForUser($this->exercises);
+
+        $exercise = $this->applyHandstandRule($user, $exercise, $this->exercises, $usersWorkout);
+
+        $exercise = $this->disallowDoubleExercisesOfType($currentSet, $exercise, $this->exercises, $usersWorkout, 'cardio');
 
         return $exercise;
     }

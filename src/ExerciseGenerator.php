@@ -45,17 +45,11 @@ class ExerciseGenerator
                 if (ExercisePicker::isBreak($currentSet, $setTotal, $user->getLevel())) {
                     $dataStore->addBreakForUser($user);
                 } else {
-                    $workoutSets = $user->getWorkout()->getWorkoutSets();
+                    $exercisePicker = new ExercisePicker($dataStore->getExercises());
 
-                    $exercises = $dataStore->getExercises();
+                    $exercise = $exercisePicker->pickExercise($user, $currentSet);
 
-                    $exercise = ExercisePicker::getRandomExerciseForUser($exercises);
-
-                    $exercise = ExercisePicker::applyHandstandRule($user, $exercise, $exercises, $workoutSets);
-
-                    $exercise = ExercisePicker::applyCardioRule($currentSet, $exercise, $exercises, $workoutSets);
-
-                    $exercise = ExercisePicker::applyExerciseLimit($exercise, $dataStore->getUsers(), $exercises, $currentSet);
+                    $exercise = $exercisePicker->applyExerciseLimit($exercise, $dataStore->getUsers(), $exercisePicker->getExercises(), $currentSet);
 
                     $dataStore->addExerciseSetForUser($user, $exercise, $currentSet, $startTime, $endTime);
                 }
