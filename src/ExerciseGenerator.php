@@ -32,12 +32,11 @@ class ExerciseGenerator
     public function generate($setTotal, $setTime): bool
     {
         $interval = CarbonInterval::seconds($setTime);
-        $workoutSet = new stdClass();
         $programmeStartTime = $this->roundUpToMinuteInterval(Carbon::now(),  10);
 
         for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
-            $workoutSet->startTime = (!isset($workoutSet->startTime)) ? $programmeStartTime : $workoutSet->endTime;
-            $workoutSet->endTime = $workoutSet->startTime->copy()->add($interval);
+            $startTime = (isset($endTime)) ? $endTime : $programmeStartTime;
+            $endTime = $startTime->copy()->add($interval);
 
             // construct the Output
             $dataStore = $this->getDataStore();
@@ -58,7 +57,7 @@ class ExerciseGenerator
 
                     $exercise = ExercisePicker::applyExerciseLimit($exercise, $dataStore->getUsers(), $exercises, $currentSet);
 
-                    $dataStore->addExerciseSetForUser($user, $exercise, $currentSet);
+                    $dataStore->addExerciseSetForUser($user, $exercise, $currentSet, $startTime, $endTime);
                 }
             }
         }

@@ -48,13 +48,13 @@ class ExercisePicker
     public static function applyCardioRule($set, Exercise $exercise, array $exercises, array $workoutSets): Exercise
     {
         // todo: Pass any type in
-        // Cardio exercises cannot preceed one another
+        // Cardio exercises cannot precede one another
         if ($set > 1 && $exercise->getType() === 'cardio') {
             // two less index as the array index starts at 0
             $previousSetExercise = $workoutSets[$set-2];
 
             // check the previous exercise was not also cardio and choose new one until its not cardio
-            if ($previousSetExercise !== null && $previousSetExercise->getExerciseType() === 'cardio') {
+            if ($previousSetExercise !== null && $previousSetExercise->getExercise()->getType() === 'cardio') {
                 while ($exercise->getType() === 'cardio') {
                     $exercise = $exercises[array_rand($exercises)];
                 }
@@ -112,9 +112,9 @@ class ExercisePicker
                 $userExerciseCount = count($userExerciseList);
 
                 if (!empty($userExerciseList) && $userExerciseCount === $currentSet) {
-                    $userCurrentExercise = $userExerciseList[$currentSet-1];
+                    $userCurrentExercise = $userExerciseList[$currentSet-1]->getExercise();
 
-                    if ($exercise->getName() === $userCurrentExercise->getExerciseName()) {
+                    if ($exercise->getName() === $userCurrentExercise->getName()) {
                         return $user;
                     }
                 }

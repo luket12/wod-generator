@@ -2,6 +2,7 @@
 
 namespace Wod;
 
+use DateTime;
 use Wod\Models\Exercise;
 use Wod\Models\ExerciseSet;
 use Wod\Models\User;
@@ -69,12 +70,11 @@ class WorkoutStore
      * @param Exercise $exercise
      * @param $setNumber
      */
-    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber): void
+    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber, DateTime $startTime, DateTime $endTime): void
     {
         $userWorkout = $user->getWorkout();
 
-        // todo: pass in an exercise object instead
-        $userWorkout->addWorkoutSet(new ExerciseSet($exercise->getName(), $exercise->getType(), $exercise->getLimit(), $setNumber));
+        $userWorkout->addWorkoutSet(new ExerciseSet($exercise, $setNumber, $startTime, $endTime));
     }
 
     /**

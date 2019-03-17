@@ -2,73 +2,75 @@
 
 namespace Wod\Models;
 
+use DateTime;
+
 class ExerciseSet
 {
-    private $exerciseName;
-    private $exerciseType;
+    private $exercise;
     private $setNumber;
-    private $limit;
+    private $startTime;
+    private $endTime;
 
     /**
-     * Set constructor.
-     * @param $exerciseName
-     * @param $exerciseType
-     * @param $limit
+     * ExerciseSet constructor.
+     * @param Exercise $exercise
      * @param $setNumber
+     * @param DateTime $startTime
+     * @param DateTime $endTime
      */
-    public function __construct($exerciseName, $exerciseType, $limit, $setNumber)
+    public function __construct(Exercise $exercise, $setNumber, DateTime $startTime, DateTime $endTime)
     {
-        $this->exerciseName = $exerciseName;
-        $this->exerciseType = $exerciseType;
-        $this->limit = $limit;
+        $this->exercise = $exercise;
         $this->setNumber = $setNumber;
+        $this->startTime = $startTime;
+        $this->endTime = $endTime;
+    }
+
+    /**
+     * @return Exercise
+     */
+    public function getExercise(): Exercise
+    {
+        return $this->exercise;
+    }
+
+    /**
+     * @param Exercise $exercise
+     */
+    public function setExercise(Exercise $exercise): void
+    {
+        $this->exercise = $exercise;
     }
 
     /**
      * @return mixed
      */
-    public function getExerciseName()
+    public function getStartTime()
     {
-        return $this->exerciseName;
+        return $this->startTime;
     }
 
     /**
-     * @param mixed $exerciseName
+     * @param mixed $startTime
      */
-    public function setExerciseName($exerciseName): void
+    public function setStartTime($startTime): void
     {
-        $this->exerciseName = $exerciseName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExerciseType()
-    {
-        return $this->exerciseType;
-    }
-
-    /**
-     * @param mixed $exerciseType
-     */
-    public function setExerciseType($exerciseType): void
-    {
-        $this->exerciseType = $exerciseType;
+        $this->startTime = $startTime;
     }
 
     /**
      * @return mixed
      */
-    public function getSetNumber()
+    public function getEndTime()
     {
-        return $this->setNumber;
+        return $this->endTime;
     }
 
     /**
-     * @param mixed $setNumber
+     * @param mixed $endTime
      */
-    public function setSetNumber($setNumber): void
+    public function setEndTime($endTime): void
     {
-        $this->setNumber = $setNumber;
+        $this->endTime = $endTime;
     }
 }
