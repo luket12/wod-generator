@@ -5,6 +5,13 @@ namespace Wod;
 use Wod\Models\Exercise;
 use Wod\Models\User;
 
+/**
+ * This class is used for picking the exercises and applying the rules
+ * and key business logic
+ *
+ * Class ExercisePicker
+ * @package Wod
+ */
 class ExercisePicker
 {
     /**
