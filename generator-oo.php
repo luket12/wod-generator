@@ -1,9 +1,7 @@
 <?php
 
-// todo: 15min interface for exercise logic (swap out implementation easily)
-// todo: 1H unit tests
-// todo: 30min sanity checks, type hinting
-// todo: 30min Abstract away the logger
+// todo: 0.5H unit tests
+// todo: 30min Create STDOUT class to output the data
 
 use Wod\WorkoutGenerator;
 use Wod\WorkoutStore;
