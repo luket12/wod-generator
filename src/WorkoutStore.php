@@ -110,6 +110,8 @@ class WorkoutStore
     }
 
     /**
+	 * Add a break for this user
+	 *
      * @param User $user
      */
     public function addBreakForUser(User $user): void

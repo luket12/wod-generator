@@ -52,6 +52,7 @@ class WorkoutGenerator
 				if ($exercisePicker->needsBreak($currentSet, $setTotal, $numBreaks)) {
 					$dataStore->addBreakForUser($user);
 				} else {
+					// Pick and store an exercise for this set
 					$exercise = $exercisePicker->pickExercise($user, $users, $currentSet);
 
 					$dataStore->addExerciseSetForUser($user, $exercise, $currentSet);
