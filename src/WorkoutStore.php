@@ -97,8 +97,6 @@ class WorkoutStore
 	 * @param User $user
 	 * @param Exercise $exercise
 	 * @param $setNumber
-	 * @param DateTime $startTime
-	 * @param DateTime $endTime
 	 */
     public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber): void
     {
