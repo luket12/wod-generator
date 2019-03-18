@@ -1,12 +1,8 @@
 <?php
 
 // todo: 15min interface for exercise logic (swap out implementation easily)
-// todo: Add set start and end time to the users workout set
-// todo: 10min namespaces
 // todo: 1H unit tests
 // todo: 30min sanity checks, type hinting
-// todo: 15min Code standards, return types
-// todo: 1H refactor
 // todo: 30min Abstract away the logger
 
 use Wod\WorkoutGenerator;
