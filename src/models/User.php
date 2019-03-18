@@ -2,6 +2,13 @@
 
 namespace Wod\Models;
 
+/**
+ *
+ * A model representing the User
+ *
+ * Class User
+ * @package Wod\Models
+ */
 class User
 {
     /**

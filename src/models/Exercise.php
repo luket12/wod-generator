@@ -2,6 +2,13 @@
 
 namespace Wod\Models;
 
+/**
+ *
+ * A model representing an exercise object
+ *
+ * Class Exercise
+ * @package Wod\Models
+ */
 class Exercise
 {
     /**

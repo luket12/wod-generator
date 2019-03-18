@@ -4,6 +4,13 @@ namespace Wod\Models;
 
 use DateTime;
 
+/**
+ *
+ * A model representing an Exercise set, such as the exercise and its exercise set times
+ *
+ * Class ExerciseSet
+ * @package Wod\Models
+ */
 class ExerciseSet
 {
     /**

@@ -16,9 +16,12 @@ use DateTime;
 class WorkoutGenerator
 {
     /**
-     * Creates the output for the workout of the day based on the user input
+     *
+     * Generates the full data store, populating each user with exercises and breaks as well as set times
+     *
      * @param $setTotal
      * @param $setTime
+     * @param $dataStore
      * @return WorkoutStore
      */
     public static function generate($setTotal, $setTime, $dataStore): WorkoutStore
@@ -46,13 +49,12 @@ class WorkoutGenerator
             }
         }
 
-        dd($dataStore);
-
         /** @var WorkoutStore $dataStore */
         return $dataStore;
     }
 
     /**
+     *
      * Round up minutes to the nearest upper interval of a DateTime object.
      *
      * @param \DateTime $dateTime
