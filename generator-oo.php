@@ -34,6 +34,11 @@ $exerciseData = [
         'name' => 'Ring',
         'type' => 'strength',
         'limit' => 2
+    ],
+    'handstand' => [
+        'name' => 'Hand Stand',
+        'type' => 'strength',
+        'limit' => 0
     ]
 ];
 

@@ -58,6 +58,7 @@ class WorkoutGenerator
                 }
             }
         }
+
         dd($dataStore);
 
         return true;
