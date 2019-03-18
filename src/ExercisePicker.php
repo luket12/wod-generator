@@ -98,7 +98,7 @@ class ExercisePicker
         User $user,
         Exercise $chosenExercise,
         $userType = 'beginner',
-        $exerciseName = 'Hand Stand'
+        $exerciseName = 'Handstand Practice'
     ): Exercise
     {
         // Beginners cannot do handstands more than once
