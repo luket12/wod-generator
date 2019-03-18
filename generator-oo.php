@@ -1,7 +1,5 @@
 <?php
 
-// todo: 0.5H unit tests
-// todo: 30min Create STDOUT class to output the data
 
 use Wod\Wod;
 use Wod\WorkoutGenerator;
