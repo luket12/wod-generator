@@ -44,13 +44,13 @@ class ExercisePicker
         $this->exercises = $exercises;
     }
 
-    /**
-     * @param User $user
-     * @param $set
-     * @param $setTotal
-     * @return bool
-     */
-    public function userNeedsBreak(User $user, $set, $setTotal, $numBreaks): bool
+	/**
+	 * @param $set
+	 * @param $setTotal
+	 * @param $numBreaks
+	 * @return bool
+	 */
+    public function needsBreak($set, $setTotal, $numBreaks): bool
     {
         // Algorithm for applying breaks at a suitable time during the workout
         if (($set + 1) % ((int) floor($setTotal / ($numBreaks + 1))) === 0) {
