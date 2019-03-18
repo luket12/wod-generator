@@ -16,7 +16,6 @@ use DateTime;
 class WorkoutGenerator
 {
     /**
-     *
      * Generates the full data store, populating each user with exercises and breaks as well as set times
      *
      * @param $setTotal
@@ -24,7 +23,7 @@ class WorkoutGenerator
      * @param $dataStore
      * @return WorkoutStore
      */
-    public static function generate($setTotal, $setTime, $dataStore): WorkoutStore
+    public static function generate($setTotal, $setTime, WorkoutStore $dataStore): WorkoutStore
     {
         $interval = CarbonInterval::seconds($setTime);
         $programmeStartTime = self::roundUpToMinuteInterval(Carbon::now(),  10);
@@ -54,7 +53,6 @@ class WorkoutGenerator
     }
 
     /**
-     *
      * Round up minutes to the nearest upper interval of a DateTime object.
      *
      * @param \DateTime $dateTime
