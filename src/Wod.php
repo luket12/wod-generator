@@ -22,39 +22,45 @@ class Wod
 	 */
     public static function output($setTimeSeconds, WorkoutStore $workout)
     {
-		$workoutStartTime = WorkoutGenerator::roundUpToMinuteInterval(Carbon::now(),  10);
-		$workoutUsers = $workout->getUsers();
-		$workoutUsersTmp = array_keys($workoutUsers);
-		$lastUser = end($workoutUsersTmp);
 
+		$workoutUsers = $workout->getUsers();
+		$workoutStartTime = WorkoutGenerator::roundUpToMinuteInterval(Carbon::now(),  10);
 
 		echo "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
-		for ($set = 1; $set <= $workout->getNumSets(); $set++) {
-			// Programme set string open
-			$programmeSetOutput = '';
+		for ($setNumber = 1; $setNumber <= $workout->getNumSets(); $setNumber++) {
+			$exerciseSet = '';
 
 			$startTime = (isset($endTime)) ? $endTime : $workoutStartTime;
 			$endTime = $startTime->copy()->add(CarbonInterval::seconds($setTimeSeconds));
 
 			// For each user
-			foreach ($workoutUsers as $key => $value) {
-				// Get user name
-				$name = $value->getName();
+			foreach ($workoutUsers as $key => $user) {
+				$exercise = $user->getExerciseSetFromWorkout($setNumber);
 
-				// Get the exercise they are on
-				$exercise = $value->getExerciseSetFromWorkout($set);
+				$exercise = ($exercise !== false) ? $exercise->getExercise()->getName() : 'Break';
 
-				$exercise = ($exercise) ? $exercise->getExercise()->getName() : 'Break';
-
-				$userSetOutput = "{$name} is on {$exercise}";
-
-				$userSetOutput .= ($lastUser !== $key) ? " - " : '';
-
-				$programmeSetOutput .= $userSetOutput;
+				$exerciseSet .= "{$user->getName()} is on {$exercise}" . self::addUserDividerToOutput($workoutUsers, $key);
 			}
 
-			echo "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$programmeSetOutput}\n</p>";
+			echo "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$exerciseSet}\n</p>";
 		}
 
     }
+
+	/**
+	 * Adds a divider between the user output string only when not the last user element
+	 *
+	 * @param $workoutUsers
+	 * @param $currentKey
+	 *
+	 * @return string
+	 */
+    public static function addUserDividerToOutput($workoutUsers, $currentKey)
+	{
+		$workoutUsersTmp = array_keys($workoutUsers);
+
+		$lastUser = end($workoutUsersTmp);
+
+		return  ($lastUser !== $currentKey) ? " - " : '';
+	}
 }
