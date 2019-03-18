@@ -90,23 +90,6 @@ $userData = [
     ],
 ];
 
-$rules = [
-    [
-        'exercise' => 'pullups',
-        'userLevel' => 'beginner',
-        'behaviour' => [
-            'maximum' => 2,
-        ]
-    ],
-    [
-        'exercise' => 'handstand',
-        'userLevel' => 'beginner',
-        'behaviour' => [
-            'minimum' => 2,
-        ]
-    ]
-];
-
 if (isset($argv)) {
     $numSets = (int) $argv[1];
     $setTimeSeconds = (int) $argv[2];
