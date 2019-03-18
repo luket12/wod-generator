@@ -74,6 +74,8 @@ class WorkoutStore
     }
 
     /**
+	 * Fills the data store with the pre-filled array data
+	 *
      * @param array $userData
      * @param array $exerciseData
      */
@@ -94,6 +96,8 @@ class WorkoutStore
     }
 
 	/**
+	 * Adds an exercise set to the users workout
+	 *
 	 * @param User $user
 	 * @param Exercise $exercise
 	 * @param $setNumber

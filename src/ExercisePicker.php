@@ -45,9 +45,12 @@ class ExercisePicker
     }
 
 	/**
+	 * Returns true when the current set should be a break
+	 *
 	 * @param $set
 	 * @param $setTotal
 	 * @param $numBreaks
+	 *
 	 * @return bool
 	 */
     public function needsBreak($set, $setTotal, $numBreaks): bool
@@ -70,6 +73,7 @@ class ExercisePicker
      * @param Exercise $exercise
      * @param array $workoutSets
      * @param $exerciseType
+	 *
      * @return Exercise
      */
     public function disallowDoubleExercisesOfType($set, Exercise $exercise, array $workoutSets, $exerciseType): Exercise
@@ -98,6 +102,7 @@ class ExercisePicker
      * @param Exercise $chosenExercise
      * @param $userType
      * @param $exerciseName
+	 *
      * @return Exercise
      */
     public function applyMaximumToExerciseForType
@@ -123,6 +128,8 @@ class ExercisePicker
     }
 
     /**
+	 * Gets a random exercise from the exercises list
+	 *
      * @return Exercise
      */
     public function getRandomExercise(): Exercise
@@ -147,9 +154,12 @@ class ExercisePicker
     }
 
     /**
+	 * Applies an exercise limit to the exercise so no more of that exercise can be chosen
+	 *
      * @param Exercise $exercise
      * @param array $userStore
      * @param $currentSet
+	 *
      * @return Exercise
      */
     public function applyExerciseLimit(Exercise $exercise, array $userStore, $currentSet): Exercise
@@ -181,8 +191,11 @@ class ExercisePicker
     }
 
     /**
+	 * Picks an exercise using all of the rules required
+	 *
      * @param $user
      * @param $currentSet
+	 *
      * @return Exercise
      */
     public function pickExercise($user, $currentSet): Exercise

@@ -80,6 +80,8 @@ class User
     }
 
 	/**
+	 * Gets the exercise sets from this workout
+	 *
 	 * @param $setNumber
 	 * @return bool|ExerciseSet
 	 */

@@ -3,7 +3,6 @@
 namespace Wod\Models;
 
 /**
- *
  * Model representing a workout, containing a number of completed exercise sets
  *
  * Class Workout
