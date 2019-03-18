@@ -35,16 +35,13 @@ class WorkoutGenerator
 	 * Generates the full data store, populating each user with exercises and breaks as well as set times
 	 *
 	 * @param $setTotal
-	 * @param CarbonInterval $interval
-	 * @param DateTime $programmeStart
 	 * @param WorkoutStore $dataStore
 	 * @return WorkoutStore
 	 */
-	public static function generate($setTotal, CarbonInterval $interval, DateTime $programmeStart, WorkoutStore $dataStore): WorkoutStore
+	public static function generate($setTotal, workoutStore $dataStore): WorkoutStore
 	{
 		for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
-			$startTime = (isset($endTime)) ? $endTime : $programmeStart;
-			$endTime = $startTime->copy()->add($interval);
+
 
 			foreach ($dataStore->getUsers() as $user) {
 				$exercisePicker = new ExercisePicker($dataStore->getExercises());
@@ -57,7 +54,7 @@ class WorkoutGenerator
 
 					$exercise = $exercisePicker->applyExerciseLimit($exercise, $dataStore->getUsers(), $currentSet);
 
-					$dataStore->addExerciseSetForUser($user, $exercise, $currentSet, $startTime, $endTime);
+					$dataStore->addExerciseSetForUser($user, $exercise, $currentSet);
 				}
 			}
 		}

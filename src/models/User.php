@@ -78,4 +78,19 @@ class User
     {
         $this->workout = $workout;
     }
+
+	/**
+	 * @param $setNumber
+	 * @return bool|ExerciseSet
+	 */
+    public function getExerciseSetFromWorkout($setNumber)
+	{
+		// Find the set that matches the set number we are looking for
+		foreach ($this->workout->getWorkoutSets() as $set) {
+			if ($set !== null && $set->getSetNumber() === $setNumber) {
+				return $set;
+			}
+		}
+		return false;
+	}
 }

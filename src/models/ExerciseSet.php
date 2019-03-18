@@ -24,25 +24,16 @@ class ExerciseSet
     /**
      * @var DateTime
      */
-    private $startTime;
-    /**
-     * @var DateTime
-     */
-    private $endTime;
 
     /**
      * ExerciseSet constructor.
      * @param Exercise $exercise
      * @param $setNumber
-     * @param DateTime $startTime
-     * @param DateTime $endTime
      */
-    public function __construct(Exercise $exercise, $setNumber, DateTime $startTime, DateTime $endTime)
+    public function __construct(Exercise $exercise, $setNumber)
     {
         $this->exercise = $exercise;
         $this->setNumber = $setNumber;
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
     }
 
     /**
@@ -61,35 +52,19 @@ class ExerciseSet
         $this->exercise = $exercise;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getSetNumber()
+	{
+		return $this->setNumber;
+	}
 
-    /**
-     * @param mixed $startTime
-     */
-    public function setStartTime($startTime): void
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEndTime()
-    {
-        return $this->endTime;
-    }
-
-    /**
-     * @param mixed $endTime
-     */
-    public function setEndTime($endTime): void
-    {
-        $this->endTime = $endTime;
-    }
+	/**
+	 * @param mixed $setNumber
+	 */
+	public function setSetNumber($setNumber): void
+	{
+		$this->setNumber = $setNumber;
+	}
 }

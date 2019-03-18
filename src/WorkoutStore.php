@@ -24,15 +24,38 @@ class WorkoutStore
      */
     private $exercises;
 
+	/**
+	 * @var
+	 */
+    private $numSets;
+
     /**
      * WorkoutStore constructor.
      * @param $users
      * @param $exercises
+     * @param $numSets
      */
-    public function __construct($users, $exercises)
+    public function __construct($users, $exercises, $numSets)
     {
+    	$this->numSets = $numSets;
         $this->fillStore($users, $exercises);
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getNumSets(): int
+	{
+		return $this->numSets;
+	}
+
+	/**
+	 * @param mixed $numSets
+	 */
+	public function setNumSets($numSets): void
+	{
+		$this->numSets = $numSets;
+	}
 
     /**
      * @return array
@@ -60,7 +83,6 @@ class WorkoutStore
         foreach ($userData as $user) {
             $users[] = new User($user['name'], $user['type'], new Workout());
         }
-
         $this->users = $users;
 
         $exercises = [];
@@ -71,16 +93,18 @@ class WorkoutStore
         $this->exercises = $exercises;
     }
 
-    /**
-     * @param User $user
-     * @param Exercise $exercise
-     * @param $setNumber
-     */
-    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber, DateTime $startTime, DateTime $endTime): void
+	/**
+	 * @param User $user
+	 * @param Exercise $exercise
+	 * @param $setNumber
+	 * @param DateTime $startTime
+	 * @param DateTime $endTime
+	 */
+    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber): void
     {
         $userWorkout = $user->getWorkout();
 
-        $userWorkout->addWorkoutSet(new ExerciseSet($exercise, $setNumber, $startTime, $endTime));
+        $userWorkout->addWorkoutSet(new ExerciseSet($exercise, $setNumber));
     }
 
     /**
