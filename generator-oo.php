@@ -3,6 +3,8 @@
 // todo: 0.5H unit tests
 // todo: 30min Create STDOUT class to output the data
 
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Wod\Wod;
 use Wod\WorkoutGenerator;
 use Wod\WorkoutStore;
@@ -108,5 +110,8 @@ if (isset($argv)) {
     $setTimeSeconds = 60;
 }
 
-$generatedWorkout = WorkoutGenerator::generate($numSets, $setTimeSeconds, new WorkoutStore($userData, $exerciseData));
-Wod::output($generatedWorkout);
+
+$workoutStartTime = WorkoutGenerator::roundUpToMinuteInterval(Carbon::now(),  10);
+$generatedWorkout = WorkoutGenerator::generate($numSets, CarbonInterval::seconds($setTimeSeconds), $workoutStartTime, new WorkoutStore($userData, $exerciseData));
+Wod::output($workoutStartTime, $generatedWorkout);
+
