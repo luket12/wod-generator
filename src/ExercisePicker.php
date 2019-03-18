@@ -193,21 +193,24 @@ class ExercisePicker
         return $exercise;
     }
 
-    /**
+	/**
 	 * Picks an exercise using all of the rules required
 	 *
-     * @param $user
-     * @param $currentSet
+	 * @param $user
+	 * @param $users
+	 * @param $currentSet
 	 *
-     * @return Exercise
-     */
-    public function pickExercise($user, $currentSet): Exercise
+	 * @return Exercise
+	 */
+    public function pickExercise($user, $users, $currentSet): Exercise
     {
         $chosenExercise = $this->getRandomExercise();
 
         $chosenExercise = $this->applyMaximumToExerciseForType($user, $chosenExercise);
 
         $chosenExercise = $this->disallowDoubleExercisesOfType($currentSet, $chosenExercise, $user->getWorkout()->getWorkoutSets(), 'cardio');
+
+		$chosenExercise = $this->applyExerciseLimit($chosenExercise, $users, $currentSet);
 
         return $chosenExercise;
     }

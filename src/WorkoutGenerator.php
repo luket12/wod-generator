@@ -48,12 +48,11 @@ class WorkoutGenerator
 			foreach ($users as $user) {
 				$numBreaks = ($user->getLevel() === 'beginner') ? 4 : 2;
 
+				// Check if a break is required before assigning an exercise
 				if ($exercisePicker->needsBreak($currentSet, $setTotal, $numBreaks)) {
 					$dataStore->addBreakForUser($user);
 				} else {
-					$exercise = $exercisePicker->pickExercise($user, $currentSet);
-
-					$exercise = $exercisePicker->applyExerciseLimit($exercise, $users, $currentSet);
+					$exercise = $exercisePicker->pickExercise($user, $users, $currentSet);
 
 					$dataStore->addExerciseSetForUser($user, $exercise, $currentSet);
 				}
