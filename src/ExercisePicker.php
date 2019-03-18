@@ -131,8 +131,7 @@ class ExercisePicker
     }
 
     /**
-     *
-     * Returns a count of exercises done by the
+     * Returns a count of same exercises done in this workout
      *
      * @param array $workoutSets
      * @param Exercise $exercise
@@ -157,18 +156,18 @@ class ExercisePicker
     {
         // Check the exercise has a limit of users already using the equipment
         if ($currentSet > 0 && $exercise->hasLimit()) {
-
             // Filter down user count to only users which have done the same exercise that was randomly chosen
             $users = array_filter($userStore, function($user) use ($currentSet, $exercise) {
                 $userExerciseList = $user->getWorkout()->getWorkoutSets();
-                $userExerciseCount = count($userExerciseList);
 
-                if (!empty($userExerciseList) && $userExerciseCount === $currentSet) {
-                    $userCurrentExercise = $userExerciseList[$currentSet-1]->getExercise();
-
-                    if ($exercise->getName() === $userCurrentExercise->getName()) {
-                        return $user;
-                    }
+                // Check only the users set that is the same set we are on (to see the exercise limit)
+                if (!empty($userExerciseList) && count($userExerciseList) === $currentSet) {
+                	if ($userExerciseList[$currentSet-1] !== null) {
+						$userCurrentExercise = $userExerciseList[$currentSet-1]->getExercise();
+						if ($exercise->getName() === $userCurrentExercise->getName()) {
+							return $user;
+						}
+					}
                 }
             });
 
