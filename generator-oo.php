@@ -3,6 +3,7 @@
 // todo: 0.5H unit tests
 // todo: 30min Create STDOUT class to output the data
 
+use Wod\Wod;
 use Wod\WorkoutGenerator;
 use Wod\WorkoutStore;
 
@@ -124,7 +125,5 @@ if (isset($argv)) {
     $setTimeSeconds = 60;
 }
 
-$dataStore = new WorkoutStore($userData, $exerciseData);
-$workoutOfTheDay = new WorkoutGenerator($dataStore);
-$workoutOfTheDay->generate($numSets, $setTimeSeconds);
-
+$generatedWorkout = WorkoutGenerator::generate($numSets, $setTimeSeconds, new WorkoutStore($userData, $exerciseData));
+Wod::output($generatedWorkout);

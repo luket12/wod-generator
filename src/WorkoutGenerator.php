@@ -16,22 +16,12 @@ use DateTime;
 class WorkoutGenerator
 {
     /**
-     * @var WorkoutStore
-     */
-    private $dataStore;
-
-    public function __construct(WorkoutStore $dataStore)
-    {
-        $this->dataStore = $dataStore;
-    }
-
-    /**
      * Creates the output for the workout of the day based on the user input
      * @param $setTotal
      * @param $setTime
-     * @return bool
+     * @return WorkoutStore
      */
-    public function generate($setTotal, $setTime): bool
+    public static function generate($setTotal, $setTime, $dataStore): WorkoutStore
     {
         $interval = CarbonInterval::seconds($setTime);
         $programmeStartTime = $this->roundUpToMinuteInterval(Carbon::now(),  10);
@@ -59,9 +49,8 @@ class WorkoutGenerator
             }
         }
 
-        dd($dataStore);
-
-        return true;
+        /** @var WorkoutStore $dataStore */
+        return $dataStore;
     }
 
     /**
