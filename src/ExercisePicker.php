@@ -55,8 +55,9 @@ class ExercisePicker
 	 */
     public function needsBreak($set, $setTotal, $numBreaks): bool
     {
-        // Algorithm for applying breaks at a suitable time during the workout
+        // Divides the required breaks by the number of sets
         if (($set + 1) % ((int) floor($setTotal / ($numBreaks + 1))) === 0) {
+			// Reduce the factor by one to space them out and not at the end of the workout
             if ($set < ($setTotal - 1)) {
                 return true;
             }
@@ -147,7 +148,9 @@ class ExercisePicker
     public static function getCountOfSameExercise(array $workoutSets, Exercise $exercise): int
     {
         return count(array_filter($workoutSets, function($set) use ($exercise) {
+        	// Dont check if the set is a break (null)
             if ($set !== null) {
+            	// return the matching exercise
                 return $set->getExercise()->getName() === $exercise->getName();
             }
         }));
