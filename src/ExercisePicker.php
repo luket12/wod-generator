@@ -84,25 +84,35 @@ class ExercisePicker
     }
 
     /**
+     *
+     * Ensures that users of a type cannot exceed an exercise type maximum
+     *
      * @param User $user
-     * @param Exercise $exercise
-     * @param array $workoutSets
+     * @param Exercise $chosenExercise
+     * @param $userType
+     * @param $exerciseName
      * @return Exercise
      */
-    public function applyHandstandRule(User $user, Exercise $exercise, array $workoutSets): Exercise
+    public function applyMaximumToExerciseForType
+    (
+        User $user,
+        Exercise $chosenExercise,
+        $userType = 'beginner',
+        $exerciseName = 'Hand Stand'
+    ): Exercise
     {
         // Beginners cannot do handstands more than once
-        if ($user->getLevel() === 'beginner' && $exercise->getName() ==='Hand Stand') {
+        if ($user->getLevel() === $userType && $chosenExercise->getName() === $exerciseName) {
             // How many times has the user done this before
-            $handStandTotal = self::getCountOfSameExercise($workoutSets, $exercise);
+            $exerciseTimesCompleted = $this->getCountOfSameExercise($user->getWorkout()->getWorkoutSets(), $chosenExercise);
 
             // If the beginner has done hand stands once already, change exercise until not hand stand anymore
-            while ($handStandTotal >= 1 && $exercise->getName() === 'Hand Stand') {
-                $exercise = $this->getRandomExercise();
+            while ($exerciseTimesCompleted >= 1 && $chosenExercise->getName() === $exerciseName) {
+                $chosenExercise = $this->getRandomExercise();
             }
         }
 
-        return $exercise;
+        return $chosenExercise;
     }
 
     /**
@@ -114,6 +124,9 @@ class ExercisePicker
     }
 
     /**
+     *
+     * Returns a count of exercises done by the
+     *
      * @param array $workoutSets
      * @param Exercise $exercise
      * @return int
@@ -122,7 +135,7 @@ class ExercisePicker
     {
         return count(array_filter($workoutSets, function($set) use ($exercise) {
             if ($set !== null) {
-                return $set->getExerciseName() === $exercise->getName();
+                return $set->getExercise()->getName() === $exercise->getName();
             }
         }));
     }
@@ -166,16 +179,14 @@ class ExercisePicker
      * @param $currentSet
      * @return Exercise
      */
-    public function pickExercise($user, $currentSet)
+    public function pickExercise($user, $currentSet): Exercise
     {
-        $usersWorkout = $user->getWorkout()->getWorkoutSets();
+        $chosenExercise = $this->getRandomExercise();
 
-        $exercise = $this->getRandomExercise($this->exercises);
+        $chosenExercise = $this->applyMaximumToExerciseForType($user, $chosenExercise);
 
-        $exercise = $this->applyHandstandRule($user, $exercise, $usersWorkout);
+        $chosenExercise = $this->disallowDoubleExercisesOfType($currentSet, $chosenExercise, $user->getWorkout()->getWorkoutSets(), 'cardio');
 
-        $exercise = $this->disallowDoubleExercisesOfType($currentSet, $exercise, $usersWorkout, 'cardio');
-
-        return $exercise;
+        return $chosenExercise;
     }
 }
