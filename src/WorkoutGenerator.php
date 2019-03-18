@@ -24,14 +24,11 @@ class WorkoutGenerator
     public static function generate($setTotal, $setTime, $dataStore): WorkoutStore
     {
         $interval = CarbonInterval::seconds($setTime);
-        $programmeStartTime = $this->roundUpToMinuteInterval(Carbon::now(),  10);
+        $programmeStartTime = self::roundUpToMinuteInterval(Carbon::now(),  10);
 
         for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
             $startTime = (isset($endTime)) ? $endTime : $programmeStartTime;
             $endTime = $startTime->copy()->add($interval);
-
-            // construct the Output
-            $dataStore = $this->getDataStore();
 
             foreach ($dataStore->getUsers() as $user) {
                 $exercisePicker = new ExercisePicker($dataStore->getExercises());
@@ -49,16 +46,10 @@ class WorkoutGenerator
             }
         }
 
+        dd($dataStore);
+
         /** @var WorkoutStore $dataStore */
         return $dataStore;
-    }
-
-    /**
-     * @return WorkoutStore
-     */
-    public function getDataStore(): WorkoutStore
-    {
-        return $this->dataStore;
     }
 
     /**
@@ -68,7 +59,7 @@ class WorkoutGenerator
      * @param int $minuteInterval
      * @return \DateTime
      */
-    public function roundUpToMinuteInterval(\DateTime $dateTime, $minuteInterval = 10): DateTime
+    public static function roundUpToMinuteInterval(\DateTime $dateTime, $minuteInterval = 10): DateTime
     {
         return $dateTime->setTime(
             $dateTime->format('H'),
