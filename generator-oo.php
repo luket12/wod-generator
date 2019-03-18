@@ -72,21 +72,21 @@ $userData = [
         'workoutSet' => [],
         'breaks' => 0
     ],
-    'JJ' => [
-        'name' => 'Ben',
-        'type' => 'beginner',
+    'Ronald' => [
+        'name' => 'Ronald',
+        'type' => 'advanced',
         'workoutSet' => [],
         'breaks' => 0
     ],
     'Steve' => [
-        'name' => 'Ben',
-        'type' => 'beginner',
+        'name' => 'Steve',
+        'type' => 'advanced',
         'workoutSet' => [],
         'breaks' => 0
     ],
     'Ron' => [
-        'name' => 'Ben',
-        'type' => 'beginner',
+        'name' => 'Ron',
+        'type' => 'advanced',
         'workoutSet' => [],
         'breaks' => 0
     ],
