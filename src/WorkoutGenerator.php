@@ -40,9 +40,11 @@ class WorkoutGenerator
 	 */
 	public static function generate($setTotal, workoutStore $dataStore): WorkoutStore
 	{
+		$users = $dataStore->getUsers();
+		$exercises = $dataStore->getExercises();
 		for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
-			foreach ($dataStore->getUsers() as $user) {
-				$exercisePicker = new ExercisePicker($dataStore->getExercises());
+			foreach ($users as $user) {
+				$exercisePicker = new ExercisePicker($exercises);
 				$numBreaks = ($user->getLevel() === 'beginner') ? 4 : 2;
 
 				if ($exercisePicker->needsBreak($currentSet, $setTotal, $numBreaks)) {
@@ -50,7 +52,7 @@ class WorkoutGenerator
 				} else {
 					$exercise = $exercisePicker->pickExercise($user, $currentSet);
 
-					$exercise = $exercisePicker->applyExerciseLimit($exercise, $dataStore->getUsers(), $currentSet);
+					$exercise = $exercisePicker->applyExerciseLimit($exercise, $users, $currentSet);
 
 					$dataStore->addExerciseSetForUser($user, $exercise, $currentSet);
 				}

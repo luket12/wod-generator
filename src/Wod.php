@@ -23,14 +23,12 @@ class Wod
     public static function output($setTimeSeconds, WorkoutStore $workout)
     {
 		$workoutStartTime = WorkoutGenerator::roundUpToMinuteInterval(Carbon::now(),  10);
-
-		// Output workout start string
 		$workoutUsers = $workout->getUsers();
-		dd($workoutUsers);
-		$lastUser = end(array_keys($workoutUsers));
+		$workoutUsersTmp = array_keys($workoutUsers);
+		$lastUser = end($workoutUsersTmp);
 
-		echo "The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n<br>";
 
+		echo "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
 		for ($set = 1; $set <= $workout->getNumSets(); $set++) {
 			// Programme set string open
 			$programmeSetOutput = '';
@@ -55,7 +53,7 @@ class Wod
 				$programmeSetOutput .= $userSetOutput;
 			}
 
-			echo "{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$programmeSetOutput}\n<br>";
+			echo "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$programmeSetOutput}\n</p>";
 		}
 
     }
