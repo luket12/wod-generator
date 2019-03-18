@@ -22,27 +22,30 @@ class Wod
 	 */
     public static function output($setTimeSeconds, WorkoutStore $workout)
     {
-
 		$workoutUsers = $workout->getUsers();
 		$workoutStartTime = WorkoutGenerator::roundUpToMinuteInterval(Carbon::now(),  10);
 
+		// Notify the workout start time which is starting at the nearest even 10 min interval
 		echo "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
-		for ($setNumber = 1; $setNumber <= $workout->getNumSets(); $setNumber++) {
-			$exerciseSet = '';
 
+		for ($setNumber = 1; $setNumber <= $workout->getNumSets(); $setNumber++) {
+			$usersExercisesForSet = '';
+
+			// Get the timescales for this set
 			$startTime = (isset($endTime)) ? $endTime : $workoutStartTime;
 			$endTime = $startTime->copy()->add(CarbonInterval::seconds($setTimeSeconds));
 
-			// For each user
+			// Build the user exercise workout string for this set and append it to the main string
 			foreach ($workoutUsers as $key => $user) {
 				$exercise = $user->getExerciseSetFromWorkout($setNumber);
 
 				$exercise = ($exercise !== false) ? $exercise->getExercise()->getName() : 'Break';
 
-				$exerciseSet .= "{$user->getName()} is on {$exercise}" . self::addUserDividerToOutput($workoutUsers, $key);
+				$usersExercisesForSet .= "{$user->getName()} is on {$exercise}" . self::addUserDividerToOutput($workoutUsers, $key);
 			}
 
-			echo "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$exerciseSet}\n</p>";
+			// Output the exercises for this set
+			echo "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$usersExercisesForSet}\n</p>";
 		}
 
     }
@@ -61,6 +64,6 @@ class Wod
 
 		$lastUser = end($workoutUsersTmp);
 
-		return  ($lastUser !== $currentKey) ? " - " : '';
+		return ($lastUser !== $currentKey) ? " - " : '';
 	}
 }
