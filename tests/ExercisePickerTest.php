@@ -5,6 +5,8 @@ namespace Wod\Tests;
 use Wod\ExercisePicker;
 use Wod\Models\Exercise;
 use Wod\Models\ExerciseSet;
+use Wod\Models\User;
+use Wod\Models\Workout;
 
 /**
  * Test the exercise picker functionality
@@ -14,16 +16,16 @@ use Wod\Models\ExerciseSet;
  */
 class ExercisePickerTest extends \PHPUnit\Framework\TestCase
 {
-	private $exercisePicker;
+	public $exercisePicker;
 
 	public function setUp(): void
 	{
 		parent::setUp();
 
 		$exercises = [
-			$exerciseA = new Exercise('test', 'typeA', 0),
+			$exerciseA = new Exercise('test', 'typeA', 1),
 			$exerciseB = new Exercise('testB', 'typeA', 0),
-			$exerciseC = new Exercise('testC', 'typeB', 0)
+			$differentExercise = new Exercise('differentType', 'typeB', 0)
 		];
 
 		$this->exercisePicker = new ExercisePicker($exercises);
@@ -54,18 +56,49 @@ class ExercisePickerTest extends \PHPUnit\Framework\TestCase
 	public function testDisallowDoubleExercisesOfType()
 	{
 		$exerciseA = new Exercise('test', 'typeA', 0);
-		$exerciseB = new Exercise('testB', 'typeB', 0);
-		$exerciseC = new Exercise('testB', 'typeC', 0);
+		$differentExercise = new Exercise('differentType', 'typeB', 0);
 
 		$workOutSets = [
 			new ExerciseSet($exerciseA, 1),
 			new ExerciseSet($exerciseA, 2),
-			new ExerciseSet($exerciseC, 3)
 		];
 
 		$set = 3;
 
-		//$this->assertNotEquals($exerciseB, $this->exercisePicker->disallowDoubleExercisesOfType($set, $exerciseB, $workOutSets, 'typeA'));
+		$this->assertNotEquals($exerciseA, $this->exercisePicker->disallowDoubleExercisesOfType($set, $exerciseA, $workOutSets, 'typeA'));
+		$this->assertEquals($differentExercise, $this->exercisePicker->disallowDoubleExercisesOfType($set, $exerciseA, $workOutSets, 'typeA'));
+	}
 
+	/**
+	 * @test
+	 * @covers \Wod\ExercisePicker::applyMaximumToExerciseForType
+	 */
+	public function testApplyMaximumToExerciseType()
+	{
+		$this->exercisePicker->setExercises([
+			$exerciseA = new Exercise('test', 'typeA', 2),
+			$differentExercise = new Exercise('differentExercise', 'typeB', 0)
+		]);
+
+		$workOutSets = [
+			new ExerciseSet($exerciseA, 1),
+			new ExerciseSet($exerciseA, 2),
+		];
+
+		$userWorkoutA = new Workout($workOutSets);
+
+		$userA = new User('testName', 'beginner', $userWorkoutA);
+
+		$workoutSetsB = [
+			new ExerciseSet($exerciseA, 1),
+			new ExerciseSet($differentExercise, 2),
+		];
+
+		$userWorkoutB = new Workout($workoutSetsB);
+
+		$userB = new User('testNameB', 'beginner', $userWorkoutB);
+
+		$this->assertEquals($differentExercise, $this->exercisePicker->applyMaximumToExerciseForType($userA, $exerciseA, 'beginner', 'test'));
+		$this->assertNotEquals($exerciseA, $this->exercisePicker->applyMaximumToExerciseForType($userB, $differentExercise, 'beginner', 'test'));
 	}
 }
