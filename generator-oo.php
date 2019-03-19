@@ -82,24 +82,25 @@ $userData = [
     ],
 ];
 
-if (isset($argv)) {
-    $numSets = (int) $argv[1];
-    $setTimeSeconds = (int) $argv[2];
+$isConsole = count($argv) > 0;
 
-    if (count($argv) < 3 || !is_int($numSets) || !is_int($setTimeSeconds)) {
+if ($isConsole) {
+    if (count($argv) < 3 || !is_int((int) $argv[1]) || !is_int((int) $argv[2])) {
         exit("Please enter in the following format - generator {number of sets} {set time in seconds}\n");
     }
-
     if ($argv[1] <= 0 || $argv[1] >= 50) {
         exit("Please enter a valid range of workout sets between 1 and 50\n");
     } elseif ($argv[2] < 30 || $argv[2] > 120) {
         exit("Please enter a valid workout set time (seconds) between 30 and 120\n");
     }
+
+	$numSets = (int) $argv[1];
+	$setTimeSeconds = (int) $argv[2];
 } else {
     $numSets = 30;
     $setTimeSeconds = 60;
 }
 
 $generatedWorkout = WorkoutGenerator::generate($numSets, new WorkoutStore($userData, $exerciseData, $numSets));
-Wod::output($setTimeSeconds, $generatedWorkout);
+Wod::output($setTimeSeconds, $isConsole, $generatedWorkout);
 

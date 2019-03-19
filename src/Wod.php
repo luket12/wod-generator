@@ -19,15 +19,16 @@ class Wod
 	 * Outputs the workout of the day for the generated workout
 	 *
 	 * @param $setTimeSeconds
+	 * @param $isConsole bool
 	 * @param WorkoutStore $workout
 	 */
-    public static function output($setTimeSeconds, WorkoutStore $workout)
+    public static function output($setTimeSeconds, $isConsole, WorkoutStore $workout)
     {
 		$workoutUsers = $workout->getUsers();
 		$workoutStartTime = self::roundUpToMinuteInterval(Carbon::now(),  10);
 
 		// Notify the workout start time which is starting at the nearest even 10 min interval
-		echo "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
+		$workoutOutput = "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
 
 		for ($setNumber = 1; $setNumber <= $workout->getNumSets(); $setNumber++) {
 			$usersExercisesForSet = '';
@@ -46,9 +47,10 @@ class Wod
 			}
 
 			// Output the exercises for this set
-			echo "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$usersExercisesForSet}\n</p>";
+			$workoutOutput .= "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$usersExercisesForSet}\n</p>";
 		}
 
+		echo ($isConsole) ? strip_tags($workoutOutput) : $workoutOutput;
     }
 
 	/**

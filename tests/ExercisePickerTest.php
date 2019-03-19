@@ -16,8 +16,6 @@ use Wod\Models\Workout;
  */
 class ExercisePickerTest extends \PHPUnit\Framework\TestCase
 {
-	public $exercisePicker;
-
 	public function setUp(): void
 	{
 		parent::setUp();
