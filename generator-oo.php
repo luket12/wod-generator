@@ -1,6 +1,5 @@
 <?php
 
-
 use Wod\Wod;
 use Wod\WorkoutGenerator;
 use Wod\WorkoutStore;
@@ -59,32 +58,27 @@ $userData = [
     'John' => [
         'name' => 'John',
         'type' => 'beginner',
-        'workoutSet' => [],
-        'breaks' => 0
+        'workoutSet' => []
     ],
     'Lisa' => [
         'name' => 'Lisa',
         'type' => 'beginner',
-        'workoutSet' => [],
-        'breaks' => 0
+        'workoutSet' => []
     ],
     'Ronald' => [
         'name' => 'Ronald',
         'type' => 'advanced',
-        'workoutSet' => [],
-        'breaks' => 0
+        'workoutSet' => []
     ],
     'Steve' => [
         'name' => 'Steve',
         'type' => 'advanced',
-        'workoutSet' => [],
-        'breaks' => 0
+        'workoutSet' => []
     ],
     'Ron' => [
         'name' => 'Ron',
         'type' => 'advanced',
-        'workoutSet' => [],
-        'breaks' => 0
+        'workoutSet' => []
     ],
 ];
 

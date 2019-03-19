@@ -16,22 +16,6 @@ use DateTime;
 class WorkoutGenerator
 {
 	/**
-     * Round up minutes to the nearest upper interval of a DateTime object.
-     *
-     * @param \DateTime $dateTime
-     * @param int $minuteInterval
-     * @return \DateTime
-     */
-    public static function roundUpToMinuteInterval(\DateTime $dateTime, $minuteInterval = 10): DateTime
-    {
-        return $dateTime->setTime(
-            $dateTime->format('H'),
-            ceil($dateTime->format('i') / $minuteInterval) * $minuteInterval,
-            0
-        );
-    }
-
-	/**
 	 * Generates the full data store, populating each user with exercises and breaks as well as set times
 	 *
 	 * @param $setTotal

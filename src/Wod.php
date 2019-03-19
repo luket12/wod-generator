@@ -4,6 +4,7 @@ namespace Wod;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use DateTime;
 
 /**
  *
@@ -23,7 +24,7 @@ class Wod
     public static function output($setTimeSeconds, WorkoutStore $workout)
     {
 		$workoutUsers = $workout->getUsers();
-		$workoutStartTime = WorkoutGenerator::roundUpToMinuteInterval(Carbon::now(),  10);
+		$workoutStartTime = self::roundUpToMinuteInterval(Carbon::now(),  10);
 
 		// Notify the workout start time which is starting at the nearest even 10 min interval
 		echo "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
@@ -66,4 +67,22 @@ class Wod
 
 		return ($lastUser !== $currentKey) ? " - " : '';
 	}
+
+
+	/**
+	 * Round up minutes to the nearest upper interval of a DateTime object.
+	 *
+	 * @param \DateTime $dateTime
+	 * @param int $minuteInterval
+	 * @return DateTime
+	 */
+	public static function roundUpToMinuteInterval(\DateTime $dateTime, $minuteInterval = 10): DateTime
+	{
+		return $dateTime->setTime(
+			$dateTime->format('H'),
+			ceil($dateTime->format('i') / $minuteInterval) * $minuteInterval,
+			0
+		);
+	}
+
 }
