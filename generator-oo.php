@@ -82,7 +82,7 @@ $userData = [
     ],
 ];
 
-$isConsole = count($argv) > 0;
+$isConsole = (isset($argv) && count($argv) > 0);
 
 if ($isConsole) {
     if (count($argv) < 3 || !is_int((int) $argv[1]) || !is_int((int) $argv[2])) {
