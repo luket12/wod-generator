@@ -1,7 +1,6 @@
 <?php
 /**
- * Application entry point,
- * sets up the global data store and generates a workout
+ * Application entry point sets up the global data store and generates a workout
  */
 
 use Wod\Wod;
@@ -99,8 +98,8 @@ if ($isConsole) {
         exit("Please enter a valid workout set time (seconds) between 30 and 120\n");
     }
 
-	$numSets = (int) $argv[1];
-	$setTimeSeconds = (int) $argv[2];
+    $numSets = (int) $argv[1];
+    $setTimeSeconds = (int) $argv[2];
 } else {
     $numSets = 30;
     $setTimeSeconds = 60;
@@ -109,4 +108,3 @@ if ($isConsole) {
 // Generate a workout, from the workout data store, and simply output it
 $generatedWorkout = WorkoutGenerator::generate($numSets, new WorkoutStore($userData, $exerciseData, $numSets));
 Wod::output($setTimeSeconds, $isConsole, $generatedWorkout);
-
