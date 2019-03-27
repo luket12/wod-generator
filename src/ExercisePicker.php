@@ -19,16 +19,16 @@ class ExercisePicker
      */
     private $exercises;
 
-	/**
-	 * @var
-	 */
+    /**
+     * @var
+     */
     private $userLevel;
 
-	/**
-	 * ExercisePicker constructor.
-	 * @param $exercises
-	 * @param $userLevel
-	 */
+    /**
+     * ExercisePicker constructor.
+     * @param $exercises
+     * @param $userLevel
+     */
     public function __construct($exercises, $userLevel)
     {
         $this->exercises = $exercises;
@@ -51,18 +51,20 @@ class ExercisePicker
         $this->exercises = $exercises;
     }
 
-	/**
-	 * Returns true when the current set should be a break
-	 *
-	 * @param $set
-	 * @param $setTotal
-	 * @return bool
-	 */
+    /**
+     * Returns true when the current set should be a break
+     *
+     * @param $set
+     * @param $setTotal
+     * @return bool
+     */
     public function needsBreak($set, $setTotal): bool
     {
+
+        $numBreaks = $this->getNumBreaks();
         // Divides the required breaks by the number of sets
-        if (($set + 1) % ((int) floor($setTotal / ($this->numBreaks() + 1))) === 0) {
-			// Reduce the factor by one to space them out and not at the end of the workout
+        if (($set + 1) % ((int) floor($setTotal / ($numBreaks + 1))) === 0) {
+            // Reduce the factor by one to space them out and not at the end of the workout
             if ($set < ($setTotal - 1)) {
                 return true;
             }
@@ -79,7 +81,7 @@ class ExercisePicker
      * @param Exercise $exercise
      * @param array $workoutSets
      * @param $exerciseType
-	 *
+     *
      * @return Exercise
      */
     public function disallowDoubleExercisesOfType($set, Exercise $exercise, array $workoutSets, $exerciseType): Exercise
@@ -108,7 +110,7 @@ class ExercisePicker
      * @param Exercise $chosenExercise
      * @param $userType
      * @param $exerciseName
-	 *
+     *
      * @return Exercise
      */
     public function applyMaximumToExerciseForType
@@ -134,8 +136,8 @@ class ExercisePicker
     }
 
     /**
-	 * Gets a random exercise from the exercises list
-	 *
+     * Gets a random exercise from the exercises list
+     *
      * @return Exercise
      */
     public function getRandomExercise(): Exercise
@@ -152,22 +154,22 @@ class ExercisePicker
      */
     public static function getCountOfSameExercise(array $workoutSets, Exercise $exercise): int
     {
-        return count(array_filter($workoutSets, function($set) use ($exercise) {
-        	// Dont check if the set is a break (null)
+        return count(array_filter($workoutSets, function ($set) use ($exercise) {
+            // Dont check if the set is a break (null)
             if ($set !== null) {
-            	// return the matching exercise
+                // return the matching exercise
                 return $set->getExercise()->getName() === $exercise->getName();
             }
         }));
     }
 
     /**
-	 * Applies an exercise limit to the exercise so no more of that exercise can be chosen
-	 *
+     * Applies an exercise limit to the exercise so no more of that exercise can be chosen
+     *
      * @param Exercise $exercise
      * @param array $userStore
      * @param $currentSet
-	 *
+     *
      * @return Exercise
      */
     public function applyExerciseLimit(Exercise $exercise, array $userStore, $currentSet): Exercise
@@ -175,17 +177,17 @@ class ExercisePicker
         // Check the exercise has a limit of users already using the equipment
         if ($currentSet > 0 && $exercise->hasLimit()) {
             // Filter down user count to only users which have done the same exercise that was randomly chosen
-            $users = array_filter($userStore, function($user) use ($currentSet, $exercise) {
+            $users = array_filter($userStore, function ($user) use ($currentSet, $exercise) {
                 $userExerciseList = $user->getWorkout()->getWorkoutSets();
 
                 // Check only the users set that is the same set we are on (to see the exercise limit)
                 if (!empty($userExerciseList) && count($userExerciseList) === $currentSet) {
-                	if ($userExerciseList[$currentSet-1] !== null) {
-						$userCurrentExercise = $userExerciseList[$currentSet-1]->getExercise();
-						if ($exercise->getName() === $userCurrentExercise->getName()) {
-							return $user;
-						}
-					}
+                    if ($userExerciseList[$currentSet-1] !== null) {
+                        $userCurrentExercise = $userExerciseList[$currentSet-1]->getExercise();
+                        if ($exercise->getName() === $userCurrentExercise->getName()) {
+                            return $user;
+                        }
+                    }
                 }
             });
 
@@ -198,25 +200,25 @@ class ExercisePicker
         return $exercise;
     }
 
-	/**
-	 * Returns the number of breaks based on the user type
-	 *
-	 * @return int
-	 */
-    public function numBreaks()
-	{
-		return ($this->userLevel === 'beginner') ? 4 : 2;
-	}
+    /**
+     * Returns the number of breaks based on the user type
+     *
+     * @return int
+     */
+    public function getNumBreaks()
+    {
+        return ($this->userLevel === 'beginner') ? 4 : 2;
+    }
 
-	/**
-	 * Picks an exercise using all of the rules required
-	 *
-	 * @param $user
-	 * @param $users
-	 * @param $currentSet
-	 *
-	 * @return Exercise
-	 */
+    /**
+     * Picks an exercise using all of the rules required
+     *
+     * @param $user
+     * @param $users
+     * @param $currentSet
+     *
+     * @return Exercise
+     */
     public function pickExercise($user, $users, $currentSet): Exercise
     {
         $chosenExercise = $this->getRandomExercise();
@@ -225,7 +227,7 @@ class ExercisePicker
 
         $chosenExercise = $this->disallowDoubleExercisesOfType($currentSet, $chosenExercise, $user->getWorkout()->getWorkoutSets(), 'cardio');
 
-		$chosenExercise = $this->applyExerciseLimit($chosenExercise, $users, $currentSet);
+        $chosenExercise = $this->applyExerciseLimit($chosenExercise, $users, $currentSet);
 
         return $chosenExercise;
     }

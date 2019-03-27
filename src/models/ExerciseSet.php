@@ -52,19 +52,19 @@ class ExerciseSet
         $this->exercise = $exercise;
     }
 
-	/**
-	 * @return mixed
-	 */
-	public function getSetNumber()
-	{
-		return $this->setNumber;
-	}
+    /**
+     * @return mixed
+     */
+    public function getSetNumber()
+    {
+        return $this->setNumber;
+    }
 
-	/**
-	 * @param mixed $setNumber
-	 */
-	public function setSetNumber($setNumber): void
-	{
-		$this->setNumber = $setNumber;
-	}
+    /**
+     * @param mixed $setNumber
+     */
+    public function setSetNumber($setNumber): void
+    {
+        $this->setNumber = $setNumber;
+    }
 }

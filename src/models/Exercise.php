@@ -24,12 +24,12 @@ class Exercise
      */
     private $limit;
 
-	/**
-	 * Exercise constructor.
-	 * @param String $name
-	 * @param String $type
-	 * @param Int $limit
-	 */
+    /**
+     * Exercise constructor.
+     * @param String $name
+     * @param String $type
+     * @param Int $limit
+     */
     public function __construct(String $name, String $type, Int $limit)
     {
         $this->name = $name;
@@ -62,8 +62,8 @@ class Exercise
     }
 
     /**
-	 * Returns true if the exercise has a limit
-	 *
+     * Returns true if the exercise has a limit
+     *
      * @return bool
      */
     public function hasLimit(): bool

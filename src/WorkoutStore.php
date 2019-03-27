@@ -24,9 +24,9 @@ class WorkoutStore
      */
     private $exercises;
 
-	/**
-	 * @var
-	 */
+    /**
+     * @var
+     */
     private $numSets;
 
     /**
@@ -37,25 +37,25 @@ class WorkoutStore
      */
     public function __construct($users, $exercises, $numSets)
     {
-    	$this->numSets = $numSets;
+        $this->numSets = $numSets;
         $this->fillStore($users, $exercises);
     }
 
-	/**
-	 * @return mixed
-	 */
-	public function getNumSets(): int
-	{
-		return $this->numSets;
-	}
+    /**
+     * @return mixed
+     */
+    public function getNumSets(): int
+    {
+        return $this->numSets;
+    }
 
-	/**
-	 * @param mixed $numSets
-	 */
-	public function setNumSets($numSets): void
-	{
-		$this->numSets = $numSets;
-	}
+    /**
+     * @param mixed $numSets
+     */
+    public function setNumSets($numSets): void
+    {
+        $this->numSets = $numSets;
+    }
 
     /**
      * @return array
@@ -74,8 +74,8 @@ class WorkoutStore
     }
 
     /**
-	 * Fills the data store with the pre-filled array data
-	 *
+     * Fills the data store with the pre-filled array data
+     *
      * @param array $userData
      * @param array $exerciseData
      */
@@ -95,23 +95,9 @@ class WorkoutStore
         $this->exercises = $exercises;
     }
 
-	/**
-	 * Adds an exercise set to the users workout
-	 *
-	 * @param User $user
-	 * @param Exercise $exercise
-	 * @param $setNumber
-	 */
-    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber): void
-    {
-        $userWorkout = $user->getWorkout();
-
-        $userWorkout->addWorkoutSet(new ExerciseSet($exercise, $setNumber));
-    }
-
     /**
-	 * Add a break for this user
-	 *
+     * Add a break for this user
+     *
      * @param User $user
      */
     public function addBreakForUser(User $user): void
@@ -119,5 +105,19 @@ class WorkoutStore
         $userWorkout = $user->getWorkout();
 
         $userWorkout->addBreak();
+    }
+
+    /**
+     * Adds an exercise set to the users workout
+     *
+     * @param User $user
+     * @param Exercise $exercise
+     * @param $setNumber
+     */
+    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber): void
+    {
+        $userWorkout = $user->getWorkout();
+
+        $userWorkout->addWorkoutSet(new ExerciseSet($exercise, $setNumber));
     }
 }
