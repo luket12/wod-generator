@@ -16,87 +16,99 @@ use Wod\Models\Workout;
  */
 class ExercisePickerTest extends \PHPUnit\Framework\TestCase
 {
-	public function setUp(): void
-	{
-		parent::setUp();
+    protected $exercises;
 
-		$exercises = [
-			$exerciseA = new Exercise('test', 'typeA', 1),
-			$exerciseB = new Exercise('testB', 'typeA', 0),
-			$differentExercise = new Exercise('differentType', 'typeB', 0)
-		];
+    public function setUp(): void
+    {
+        parent::setUp();
 
-		$this->exercisePicker = new ExercisePicker($exercises);
-	}
+        $this->exercises = [
+            $exerciseA = new Exercise('test', 'typeA', 1),
+            $exerciseB = new Exercise('testB', 'typeA', 0),
+            $differentExercise = new Exercise('differentType', 'typeB', 0)
+        ];
+    }
 
-	/**
-	 * @test
-	 * @covers \Wod\ExercisePicker::needsBreak
-	 */
-	public function testNeedsBreak()
-	{
-		$setTotalA = 10;
-		$numBreaksA = 5;
-		$setA = 2;
+    /**
+     * @test
+     * @covers \Wod\ExercisePicker::needsBreak
+     */
+    public function testNeedsBreak()
+    {
+        $advancedExercisePicker = new ExercisePicker($this->exercises, 'advanced');
+        $beginnerExercisePicker = new ExercisePicker($this->exercises, 'beginner');
 
-		$setTotalB = 20;
-		$numBreaksB = 2;
-		$setB = 11;
+        $firstSet = 1;
+        $lastSet = 20;
+        $totalSetsA = 20;
 
-		$this->assertTrue($this->exercisePicker->needsBreak($setA, $setTotalA, $numBreaksA));
-		$this->assertTrue($this->exercisePicker->needsBreak($setB, $setTotalB, $numBreaksB));
-	}
 
-	/**
-	 * @test
-	 * @covers \Wod\ExercisePicker::disallowDoubleExercisesOfType
-	 */
-	public function testDisallowDoubleExercisesOfType()
-	{
-		$exerciseA = new Exercise('test', 'typeA', 0);
-		$differentExercise = new Exercise('differentType', 'typeB', 0);
+        // Check no breaks are made at the start or end for advanced
+        $this->assertFalse($advancedExercisePicker->needsBreak($firstSet, $totalSetsA));
+        $this->assertFalse($advancedExercisePicker->needsBreak($lastSet, $totalSetsA));
 
-		$workOutSets = [
-			new ExerciseSet($exerciseA, 1),
-			new ExerciseSet($exerciseA, 2),
-		];
+        // Same checks for beginner
+        $this->assertFalse($beginnerExercisePicker->needsBreak($firstSet, $totalSetsA));
+        $this->assertFalse($beginnerExercisePicker->needsBreak($lastSet, $totalSetsA));
 
-		$set = 3;
+        // Check advanced users have 4 breaks
 
-		$this->assertNotEquals($exerciseA, $this->exercisePicker->disallowDoubleExercisesOfType($set, $exerciseA, $workOutSets, 'typeA'));
-		$this->assertEquals($differentExercise, $this->exercisePicker->disallowDoubleExercisesOfType($set, $exerciseA, $workOutSets, 'typeA'));
-	}
+        // Check beginner users have 2 breaks (Loop and count)
+    }
 
-	/**
-	 * @test
-	 * @covers \Wod\ExercisePicker::applyMaximumToExerciseForType
-	 */
-	public function testApplyMaximumToExerciseType()
-	{
-		$this->exercisePicker->setExercises([
-			$exerciseA = new Exercise('test', 'typeA', 2),
-			$differentExercise = new Exercise('differentExercise', 'typeB', 0)
-		]);
+    /**
+     * @test
+     * @covers \Wod\ExercisePicker::disallowDoubleExercisesOfType
+     */
+    public function testDisallowDoubleExercisesOfType()
+    {
+        $exercisePicker = new ExercisePicker($this->exercises, 'beginner');
 
-		$workOutSets = [
-			new ExerciseSet($exerciseA, 1),
-			new ExerciseSet($exerciseA, 2),
-		];
+        $exerciseOfTypeA = new Exercise('test', 'typeA', 0);
+        $differentExercise = new Exercise('differentType', 'typeB', 0);
 
-		$userWorkoutA = new Workout($workOutSets);
+        $workOutSets = [
+            new ExerciseSet($exerciseOfTypeA, 1),
+            new ExerciseSet($exerciseOfTypeA, 2),
+        ];
 
-		$userA = new User('testName', 'beginner', $userWorkoutA);
+        // check the following exercise has chosen the other type of exercise
+        $this->assertNotEquals($exerciseOfTypeA, $exercisePicker->disallowDoubleExercisesOfType(3, $exerciseOfTypeA, $workOutSets, 'typeA'));
+        $this->assertEquals($differentExercise, $exercisePicker->disallowDoubleExercisesOfType(3, $differentExercise, $workOutSets, 'typeA'));
+    }
 
-		$workoutSetsB = [
-			new ExerciseSet($exerciseA, 1),
-			new ExerciseSet($differentExercise, 2),
-		];
+    /**
+     * @test
+     * @covers \Wod\ExercisePicker::applyMaximumToExerciseForType
+     */
+    public function testApplyMaximumToExerciseType()
+    {
+        $exercisePicker = new ExercisePicker($this->exercises, 'beginner');
 
-		$userWorkoutB = new Workout($workoutSetsB);
+        $exercisePicker->setExercises([
+            $exerciseA = new Exercise('test', 'typeA', 2),
+            $differentExercise = new Exercise('differentExercise', 'typeB', 0)
+        ]);
 
-		$userB = new User('testNameB', 'beginner', $userWorkoutB);
+        $workOutSets = [
+            new ExerciseSet($exerciseA, 1),
+            new ExerciseSet($exerciseA, 2),
+        ];
 
-		$this->assertEquals($differentExercise, $this->exercisePicker->applyMaximumToExerciseForType($userA, $exerciseA, 'beginner', 'test'));
-		$this->assertNotEquals($exerciseA, $this->exercisePicker->applyMaximumToExerciseForType($userB, $differentExercise, 'beginner', 'test'));
-	}
+        $userWorkoutA = new Workout($workOutSets);
+
+        $userA = new User('testName', 'beginner', $userWorkoutA);
+
+        $workoutSetsB = [
+            new ExerciseSet($exerciseA, 1),
+            new ExerciseSet($differentExercise, 2),
+        ];
+
+        $userWorkoutB = new Workout($workoutSetsB);
+
+        $userB = new User('testNameB', 'beginner', $userWorkoutB);
+
+        $this->assertEquals($differentExercise, $exercisePicker->applyMaximumToExerciseForType($userA, $exerciseA, 'beginner', 'test'));
+        $this->assertNotEquals($exerciseA, $exercisePicker->applyMaximumToExerciseForType($userB, $differentExercise, 'beginner', 'test'));
+    }
 }
