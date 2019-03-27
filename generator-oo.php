@@ -1,4 +1,8 @@
 <?php
+/**
+ * Application entry point,
+ * sets up the global data store and generates a workout
+ */
 
 use Wod\Wod;
 use Wod\WorkoutGenerator;
@@ -82,6 +86,7 @@ $userData = [
     ],
 ];
 
+// Use CLI args to determine whether its to tailor the output later on for browser
 $isConsole = (isset($argv) && count($argv) > 0);
 
 if ($isConsole) {
@@ -101,6 +106,7 @@ if ($isConsole) {
     $setTimeSeconds = 60;
 }
 
+// Generate a workout, from the workout data store, and simply output it
 $generatedWorkout = WorkoutGenerator::generate($numSets, new WorkoutStore($userData, $exerciseData, $numSets));
 Wod::output($setTimeSeconds, $isConsole, $generatedWorkout);
 
