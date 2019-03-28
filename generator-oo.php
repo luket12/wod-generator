@@ -9,81 +9,13 @@ use Wod\WorkoutStore;
 
 require 'vendor/autoload.php';
 
-$exerciseData = [
-    'jumpingJacks' => [
-        'name' => 'Jumping Jacks',
-        'type' => 'cardio',
-        'limit' => 2
-    ],
-    'pushups' => [
-        'name' => 'Push Ups',
-        'type' => 'strength',
-        'limit' => 2
-    ],
-    'frontsquats' => [
-        'name' => 'Front Squats',
-        'type' => 'strength',
-        'limit' => 0
-    ],
-    'backsquats' => [
-        'name' => 'Back Squats',
-        'type' => 'strength',
-        'limit' => 0
-    ],
-    'pullups' => [
-        'name' => 'Pull Ups',
-        'type' => 'strength',
-        'limit' => 0
-    ],
-    'rings' => [
-        'name' => 'Rings',
-        'type' => 'strength',
-        'limit' => 2
-    ],
-    'shortsprints' => [
-        'name' => 'Short Sprints',
-        'type' => 'cardio',
-        'limit' => 0
-    ],
-    'handstandpractice' => [
-        'name' => 'Handstand Practice',
-        'type' => 'strength',
-        'limit' => 0
-    ],
-    'jumpingrope' => [
-        'name' => 'Jumping Rope',
-        'type' => 'cardio',
-        'limit' => 0
-    ],
-];
-
-$userData = [
-    'John' => [
-        'name' => 'John',
-        'type' => 'beginner',
-        'workoutSet' => []
-    ],
-    'Lisa' => [
-        'name' => 'Lisa',
-        'type' => 'beginner',
-        'workoutSet' => []
-    ],
-    'Ronald' => [
-        'name' => 'Ronald',
-        'type' => 'advanced',
-        'workoutSet' => []
-    ],
-    'Steve' => [
-        'name' => 'Steve',
-        'type' => 'advanced',
-        'workoutSet' => []
-    ],
-    'Ron' => [
-        'name' => 'Ron',
-        'type' => 'advanced',
-        'workoutSet' => []
-    ],
-];
+// Load configuration array files, (modify these how you please - add / remove / configure exercises)
+if (file_exists('exercises.php') && file_exists('users.php')) {
+    require_once 'exercises.php';
+    require_once 'users.php';
+} else {
+    exit('Please check your configuration files, they should be ./users.php and ./exercises.php');
+}
 
 // Use CLI args to determine whether its to tailor the output later on for browser
 $isConsole = (isset($argv) && count($argv) > 0);

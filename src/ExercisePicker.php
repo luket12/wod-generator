@@ -7,7 +7,7 @@ use Wod\Models\User;
 
 /**
  * This class is used for picking the exercises and applying the rules
- * and key business logic
+ * and key business logic (Can abstract the rules away)
  *
  * Class ExercisePicker
  * @package Wod
