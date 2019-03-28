@@ -23,7 +23,7 @@ class WorkoutGenerator
      */
     public static function generate($setTotal, array $users, array $exercises): array
     {
-        $exercisePicker = new ExercisePicker($exercises);
+        $exercisePicker = new ExercisePicker($exercises, $users);
 
         for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
             /** @var User $user */
@@ -33,7 +33,7 @@ class WorkoutGenerator
                     $user->addBreakToWorkout();
                 } else {
                     // Pick and store an exercise for this set
-                    $exercise = $exercisePicker->pickExercise($user, $users, $currentSet);
+                    $exercise = $exercisePicker->pickExercise($user, $currentSet);
 
                     $user->addExerciseSetToWorkout($exercise, $currentSet);
                 }

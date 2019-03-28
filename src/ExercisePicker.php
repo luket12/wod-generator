@@ -20,12 +20,19 @@ class ExercisePicker
     private $exercises;
 
     /**
+     * @var
+     */
+    private $users;
+
+    /**
      * ExercisePicker constructor.
      * @param $exercises
+     * @param array $users
      */
-    public function __construct($exercises)
+    public function __construct($exercises, array $users)
     {
         $this->exercises = $exercises;
+        $this->users = $users;
     }
 
     /**
@@ -118,12 +125,12 @@ class ExercisePicker
      *
      * @return Exercise
      */
-    public function applyExerciseLimit(Exercise $exercise, array $userStore, $currentSet): Exercise
+    public function applyExerciseLimit(Exercise $exercise, $currentSet): Exercise
     {
         // Check the exercise has a limit of users already using the equipment
         if ($currentSet > 0 && $exercise->hasLimit()) {
             // Filter down user count to only users which have done the same exercise that was randomly chosen
-            $users = array_filter($userStore, function ($user) use ($currentSet, $exercise) {
+            $users = array_filter($this->users, function ($user) use ($currentSet, $exercise) {
                 $userExerciseList = $user->getWorkout()->getWorkoutSets();
 
                 // Check only the users set that is the same set we are on (to see the exercise limit)
@@ -151,12 +158,11 @@ class ExercisePicker
      * Picks an exercise using all of the rules required
      *
      * @param $user
-     * @param $users
      * @param $currentSet
      *
      * @return Exercise
      */
-    public function pickExercise($user, $users, $currentSet): Exercise
+    public function pickExercise($user, $currentSet): Exercise
     {
         $chosenExercise = $this->getRandomExercise();
 
@@ -164,7 +170,7 @@ class ExercisePicker
 
         $chosenExercise = $this->disallowDoubleExercisesOfType($currentSet, $chosenExercise, $user->getWorkout()->getWorkoutSets(), 'cardio');
 
-        $chosenExercise = $this->applyExerciseLimit($chosenExercise, $users, $currentSet);
+        $chosenExercise = $this->applyExerciseLimit($chosenExercise, $currentSet);
 
         return $chosenExercise;
     }
