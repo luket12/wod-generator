@@ -131,7 +131,7 @@ class User
      * Add a break for this user
      *
      */
-    public function addBreak(): void
+    public function addBreakToWorkout(): void
     {
         $this->workout->addBreak();
     }
@@ -142,7 +142,7 @@ class User
      * @param Exercise $exercise
      * @param $setNumber
      */
-    public function addExerciseSet(Exercise $exercise, $setNumber): void
+    public function addExerciseSetToWorkout(Exercise $exercise, $setNumber): void
     {
         $this->workout->addWorkoutSet(new ExerciseSet($exercise, $setNumber));
     }

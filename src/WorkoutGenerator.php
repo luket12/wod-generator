@@ -29,12 +29,12 @@ class WorkoutGenerator
 
                 // Check if a break is required before assigning an exercise
                 if ($user->needsBreak($currentSet, $setTotal)) {
-                    $user->addBreak();
+                    $user->addBreakToWorkout();
                 } else {
                     // Pick and store an exercise for this set
                     $exercise = $exercisePicker->pickExercise($user, $users, $currentSet);
 
-                    $user->addExerciseSet($exercise, $currentSet);
+                    $user->addExerciseSetToWorkout($exercise, $currentSet);
                 }
             }
         }
