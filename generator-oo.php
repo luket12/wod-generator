@@ -30,14 +30,14 @@ if ($isConsole) {
         exit("Please enter a valid workout set time (seconds) between 30 and 120\n");
     }
 
-    $numSets = (int) $argv[1];
-    $setTimeSeconds = (int) $argv[2];
+    define('TOTALSETS', (int) $argv[1]);
+    define('SETINSECONDS', (int) $argv[2]);
 } else {
-    $numSets = 30;
-    $setTimeSeconds = 60;
+    define('TOTALSETS', 30);
+    define('SETINSECONDS', 60);
 }
 
 // Generate a workout, from the workout data store, and simply output it
 $workoutDataStore = new WorkoutStore($userData, $exerciseData);
-$generatedWorkout = WorkoutGenerator::generate($numSets, $workoutDataStore->getUsers(), $workoutDataStore->getExercises());
-Wod::output($setTimeSeconds, $numSets, $isConsole, $generatedWorkout);
+$generatedWorkout = WorkoutGenerator::generate($workoutDataStore->getUsers(), $workoutDataStore->getExercises());
+Wod::output($isConsole, $generatedWorkout);

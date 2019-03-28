@@ -18,24 +18,22 @@ class Wod
     /**
      * Outputs the workout of the day for the generated workout
      *
-     * @param int $setTimeSeconds
-     * @param int $numSets
      * @param $isConsole bool
-     * @param array $workout
+     * @param array $workoutUsers
      */
-    public static function output(int $setTimeSeconds, int $numSets, bool $isConsole, array $workoutUsers)
+    public static function output(bool $isConsole, array $workoutUsers)
     {
         $workoutStartTime = self::roundUpToMinuteInterval(Carbon::now(), 10);
 
         // Notify the workout start time which is starting at the nearest even 10 min interval
         $workoutOutput = "<p>The programme will begin at: {$workoutStartTime->format('d-m-Y H:i:s')}\n</p>";
 
-        for ($setNumber = 1; $setNumber <= $numSets; $setNumber++) {
+        for ($setNumber = 1; $setNumber <= TOTALSETS; $setNumber++) {
             $usersExercisesForSet = '';
 
             // Get the timescales for this set
             $startTime = (isset($endTime)) ? $endTime : $workoutStartTime;
-            $endTime = $startTime->copy()->add(CarbonInterval::seconds($setTimeSeconds));
+            $endTime = $startTime->copy()->add(CarbonInterval::seconds(SETINSECONDS));
 
             // Build the user exercise workout string for this set and append it to the main string
             foreach ($workoutUsers as $key => $user) {
