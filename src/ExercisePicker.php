@@ -60,7 +60,6 @@ class ExercisePicker
      */
     public function needsBreak($set, $setTotal): bool
     {
-
         $numBreaks = $this->getNumBreaks();
         // Divides the required breaks by the number of sets
         if (($set + 1) % ((int) floor($setTotal / ($numBreaks + 1))) === 0) {

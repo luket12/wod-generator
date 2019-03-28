@@ -25,36 +25,13 @@ class WorkoutStore
     private $exercises;
 
     /**
-     * @var
-     */
-    private $numSets;
-
-    /**
      * WorkoutStore constructor.
      * @param $users
      * @param $exercises
-     * @param $numSets
      */
-    public function __construct($users, $exercises, $numSets)
+    public function __construct($users, $exercises)
     {
-        $this->numSets = $numSets;
         $this->fillStore($users, $exercises);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumSets(): int
-    {
-        return $this->numSets;
-    }
-
-    /**
-     * @param mixed $numSets
-     */
-    public function setNumSets($numSets): void
-    {
-        $this->numSets = $numSets;
     }
 
     /**

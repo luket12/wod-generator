@@ -18,7 +18,7 @@ class WorkoutGenerator
      * @param WorkoutStore $dataStore
      * @return WorkoutStore
      */
-    public static function generate($setTotal, workoutStore $dataStore): WorkoutStore
+    public static function generate($setTotal, WorkoutStore $dataStore): WorkoutStore
     {
         // Store the needed data store pieces
         $users = $dataStore->getUsers();
