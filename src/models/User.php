@@ -110,15 +110,14 @@ class User
      * Returns true when the current set should be a break
      *
      * @param $set
-     * @param $setTotal
      * @return bool
      */
-    public function needsBreak($set, $setTotal): bool
+    public function needsBreak($set): bool
     {
         // Divides the required breaks by the number of sets
-        if (($set + 1) % ((int) floor($setTotal / ($this->getNumBreaks() + 1))) === 0) {
+        if (($set + 1) % ((int) floor(TOTALSETS / ($this->getNumBreaks() + 1))) === 0) {
             // Reduce the factor by one to space them out and not at the end of the workout
-            if ($set < ($setTotal - 1)) {
+            if ($set < (TOTALSETS - 1)) {
                 return true;
             }
         }

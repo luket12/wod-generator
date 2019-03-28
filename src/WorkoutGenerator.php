@@ -28,7 +28,7 @@ class WorkoutGenerator
             /** @var User $user */
             foreach ($users as $user) {
                 // Check if a break is required before assigning an exercise
-                if ($user->needsBreak($currentSet, TOTALSETS)) {
+                if ($user->needsBreak($currentSet)) {
                     $user->addBreakToWorkout();
                 } else {
                     // Pick and store an exercise for this set
