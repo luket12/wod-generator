@@ -38,5 +38,6 @@ if ($isConsole) {
 }
 
 // Generate a workout, from the workout data store, and simply output it
-$generatedWorkout = WorkoutGenerator::generate($numSets, new WorkoutStore($userData, $exerciseData));
+$workoutDataStore = new WorkoutStore($userData, $exerciseData);
+$generatedWorkout = WorkoutGenerator::generate($numSets, $workoutDataStore->getUsers(), $workoutDataStore->getExercises());
 Wod::output($setTimeSeconds, $numSets, $isConsole, $generatedWorkout);

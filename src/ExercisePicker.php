@@ -29,14 +29,6 @@ class ExercisePicker
     }
 
     /**
-     * @return mixed
-     */
-    public function getExercises()
-    {
-        return $this->exercises;
-    }
-
-    /**
      * @param mixed $exercises
      */
     public function setExercises($exercises): void
@@ -95,7 +87,7 @@ class ExercisePicker
         // Beginners cannot do handstands more than once
         if ($user->getLevel() === $userType && $chosenExercise->getName() === $exerciseName) {
             // How many times has the user done this before
-            $exerciseTimesCompleted = $this->getCountOfSameExercise($user->getWorkout()->getWorkoutSets(), $chosenExercise);
+            $exerciseTimesCompleted = $user->getWorkout()->getCountOfSameExercise($chosenExercise);
 
             // If the beginner has done hand stands once already, change exercise until not hand stand anymore
             while ($exerciseTimesCompleted >= 1 && $chosenExercise->getName() === $exerciseName) {
@@ -116,23 +108,6 @@ class ExercisePicker
         return $this->exercises[array_rand($this->exercises)];
     }
 
-    /**
-     * Returns a count of same exercises done in this workout
-     *
-     * @param array $workoutSets
-     * @param Exercise $exercise
-     * @return int
-     */
-    public static function getCountOfSameExercise(array $workoutSets, Exercise $exercise): int
-    {
-        return count(array_filter($workoutSets, function ($set) use ($exercise) {
-            // Dont check if the set is a break (null)
-            if ($set !== null) {
-                // return the matching exercise
-                return $set->getExercise()->getName() === $exercise->getName();
-            }
-        }));
-    }
 
     /**
      * Applies an exercise limit to the exercise so no more of that exercise can be chosen

@@ -17,19 +17,17 @@ class WorkoutGenerator
      * Generates the full data store, populating each user with exercises and breaks as well as set times
      *
      * @param $setTotal
-     * @param WorkoutStore $dataStore
-     * @return WorkoutStore
+     * @param array $users
+     * @param array $exercises
+     * @return array $users The array containing users and their workout
      */
-    public static function generate($setTotal, WorkoutStore $dataStore): WorkoutStore
+    public static function generate($setTotal, array $users, array $exercises): array
     {
-        // Store the needed data store pieces
-        $users = $dataStore->getUsers();
+        $exercisePicker = new ExercisePicker($exercises);
 
         for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
-            /* @var $user User */
+            /** @var User $user */
             foreach ($users as $user) {
-                $exercisePicker = new ExercisePicker($dataStore->getExercises());
-
                 // Check if a break is required before assigning an exercise
                 if ($user->needsBreak($currentSet, $setTotal)) {
                     $user->addBreakToWorkout();
@@ -42,7 +40,6 @@ class WorkoutGenerator
             }
         }
 
-        /** @var WorkoutStore $dataStore */
-        return $dataStore;
+        return $users;
     }
 }

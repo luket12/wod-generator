@@ -58,4 +58,21 @@ class Workout
     {
         $this->exerciseSets[] = null;
     }
+
+    /**
+     * Returns a count of same exercises done in this workout
+     *
+     * @param Exercise $exercise
+     * @return int
+     */
+    public function getCountOfSameExercise(Exercise $exercise): int
+    {
+        return count(array_filter($this->exerciseSets, function ($set) use ($exercise) {
+            // Dont check if the set is a break (null)
+            if ($set !== null) {
+                // return the matching exercise
+                return $set->getExercise()->getName() === $exercise->getName();
+            }
+        }));
+    }
 }

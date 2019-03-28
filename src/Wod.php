@@ -18,14 +18,13 @@ class Wod
     /**
      * Outputs the workout of the day for the generated workout
      *
-     * @param $setTimeSeconds
-     * @param $numSets
+     * @param int $setTimeSeconds
+     * @param int $numSets
      * @param $isConsole bool
-     * @param WorkoutStore $workout
+     * @param array $workout
      */
-    public static function output($setTimeSeconds, $numSets, $isConsole, WorkoutStore $workout)
+    public static function output(int $setTimeSeconds, int $numSets, bool $isConsole, array $workoutUsers)
     {
-        $workoutUsers = $workout->getUsers();
         $workoutStartTime = self::roundUpToMinuteInterval(Carbon::now(), 10);
 
         // Notify the workout start time which is starting at the nearest even 10 min interval
