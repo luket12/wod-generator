@@ -29,3 +29,5 @@ Added more Exception handling
 
 Finish the PHPUnit tests, on all vital areas
 
+Completely rewrite the WOD outputter (spent least amount of time on this)
+
