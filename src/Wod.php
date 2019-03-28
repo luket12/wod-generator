@@ -18,10 +18,9 @@ class Wod
     /**
      * Outputs the workout of the day for the generated workout
      *
-     * @param $isConsole bool
      * @param array $workoutUsers
      */
-    public static function output(bool $isConsole, array $workoutUsers)
+    public static function output(array $workoutUsers)
     {
         $workoutStartTime = self::roundUpToMinuteInterval(Carbon::now(), 10);
 
@@ -48,7 +47,7 @@ class Wod
             $workoutOutput .= "<p>{$startTime->format('i:s')} to {$endTime->format('i:s')} - {$usersExercisesForSet}\n</p>";
         }
 
-        echo ($isConsole) ? strip_tags($workoutOutput) : $workoutOutput;
+        echo (defined('STDIN')) ? strip_tags($workoutOutput) : $workoutOutput;
     }
 
     /**

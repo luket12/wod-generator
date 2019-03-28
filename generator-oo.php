@@ -18,9 +18,7 @@ require_once 'exercises.php';
 require_once 'users.php';
 
 // Use CLI args to determine whether its to tailor the output later on for browser
-$isConsole = (isset($argv) && count($argv) > 0);
-
-if (!$isConsole) {
+if (!defined('STDIN')) {
     define('TOTALSETS', 30);
     define('SETINSECONDS', 60);
 } else {
@@ -40,4 +38,4 @@ if (!$isConsole) {
 // Generate a workout, from the workout data store, and simply output it
 $workoutDataStore = new WorkoutStore($userData, $exerciseData);
 $generatedWorkout = WorkoutGenerator::generate($workoutDataStore->getUsers(), $workoutDataStore->getExercises());
-Wod::output($isConsole, $generatedWorkout);
+Wod::output($generatedWorkout);
