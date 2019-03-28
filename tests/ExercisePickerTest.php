@@ -35,7 +35,7 @@ class ExercisePickerTest extends \PHPUnit\Framework\TestCase
      */
     public function testDisallowDoubleExercisesOfType()
     {
-        $exercisePicker = new ExercisePicker($this->exercises);
+        $exercisePicker = new ExercisePicker($this->exercises, []);
 
         $exerciseOfTypeA = new Exercise('test', 'typeA', 0);
         $differentExercise = new Exercise('differentType', 'typeB', 0);
@@ -56,7 +56,7 @@ class ExercisePickerTest extends \PHPUnit\Framework\TestCase
      */
     public function testApplyMaximumToExerciseType()
     {
-        $exercisePicker = new ExercisePicker($this->exercises);
+        $exercisePicker = new ExercisePicker($this->exercises, []);
 
         $exercisePicker->setExercises([
             $exerciseA = new Exercise('test', 'typeA', 2),
