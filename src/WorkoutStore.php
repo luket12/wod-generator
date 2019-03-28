@@ -31,7 +31,7 @@ class WorkoutStore
      */
     public function __construct($users, $exercises)
     {
-        $this->fillStore($users, $exercises);
+        $this->setUpStore($users, $exercises);
     }
 
     /**
@@ -56,7 +56,7 @@ class WorkoutStore
      * @param array $userData
      * @param array $exerciseData
      */
-    public function fillStore(array $userData, array $exerciseData): void
+    public function setUpStore(array $userData, array $exerciseData): void
     {
         $users = [];
         foreach ($userData as $user) {
