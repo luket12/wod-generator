@@ -31,38 +31,11 @@ class ExercisePickerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @covers \Wod\ExercisePicker::needsBreak
-     */
-    public function testNeedsBreak()
-    {
-        $advancedExercisePicker = new ExercisePicker($this->exercises, 'advanced');
-        $beginnerExercisePicker = new ExercisePicker($this->exercises, 'beginner');
-
-        $firstSet = 1;
-        $lastSet = 20;
-        $totalSetsA = 20;
-
-
-        // Check no breaks are made at the start or end for advanced
-        $this->assertFalse($advancedExercisePicker->needsBreak($firstSet, $totalSetsA));
-        $this->assertFalse($advancedExercisePicker->needsBreak($lastSet, $totalSetsA));
-
-        // Same checks for beginner
-        $this->assertFalse($beginnerExercisePicker->needsBreak($firstSet, $totalSetsA));
-        $this->assertFalse($beginnerExercisePicker->needsBreak($lastSet, $totalSetsA));
-
-        // Check advanced users have 4 breaks
-
-        // Check beginner users have 2 breaks (Loop and count)
-    }
-
-    /**
-     * @test
      * @covers \Wod\ExercisePicker::disallowDoubleExercisesOfType
      */
     public function testDisallowDoubleExercisesOfType()
     {
-        $exercisePicker = new ExercisePicker($this->exercises, 'beginner');
+        $exercisePicker = new ExercisePicker($this->exercises);
 
         $exerciseOfTypeA = new Exercise('test', 'typeA', 0);
         $differentExercise = new Exercise('differentType', 'typeB', 0);
@@ -83,7 +56,7 @@ class ExercisePickerTest extends \PHPUnit\Framework\TestCase
      */
     public function testApplyMaximumToExerciseType()
     {
-        $exercisePicker = new ExercisePicker($this->exercises, 'beginner');
+        $exercisePicker = new ExercisePicker($this->exercises);
 
         $exercisePicker->setExercises([
             $exerciseA = new Exercise('test', 'typeA', 2),

@@ -20,19 +20,12 @@ class ExercisePicker
     private $exercises;
 
     /**
-     * @var
-     */
-    private $userLevel;
-
-    /**
      * ExercisePicker constructor.
      * @param $exercises
-     * @param $userLevel
      */
-    public function __construct($exercises, $userLevel)
+    public function __construct($exercises)
     {
         $this->exercises = $exercises;
-        $this->userLevel = $userLevel;
     }
 
     /**
@@ -49,27 +42,6 @@ class ExercisePicker
     public function setExercises($exercises): void
     {
         $this->exercises = $exercises;
-    }
-
-    /**
-     * Returns true when the current set should be a break
-     *
-     * @param $set
-     * @param $setTotal
-     * @return bool
-     */
-    public function needsBreak($set, $setTotal): bool
-    {
-        $numBreaks = $this->getNumBreaks();
-        // Divides the required breaks by the number of sets
-        if (($set + 1) % ((int) floor($setTotal / ($numBreaks + 1))) === 0) {
-            // Reduce the factor by one to space them out and not at the end of the workout
-            if ($set < ($setTotal - 1)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -199,15 +171,6 @@ class ExercisePicker
         return $exercise;
     }
 
-    /**
-     * Returns the number of breaks based on the user type
-     *
-     * @return int
-     */
-    public function getNumBreaks()
-    {
-        return ($this->userLevel === 'beginner') ? 4 : 2;
-    }
 
     /**
      * Picks an exercise using all of the rules required

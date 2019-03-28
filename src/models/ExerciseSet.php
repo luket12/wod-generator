@@ -6,7 +6,7 @@ use DateTime;
 
 /**
  *
- * A model representing an Exercise set, such as the exercise and its exercise set times
+ * A model representing an Exercise set
  *
  * Class ExerciseSet
  * @package Wod\Models

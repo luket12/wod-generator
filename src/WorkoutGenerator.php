@@ -25,10 +25,10 @@ class WorkoutGenerator
 
         for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
             foreach ($users as $user) {
-                $exercisePicker = new ExercisePicker($dataStore->getExercises(), $user->getLevel());
+                $exercisePicker = new ExercisePicker($dataStore->getExercises());
 
                 // Check if a break is required before assigning an exercise
-                if ($exercisePicker->needsBreak($currentSet, $setTotal)) {
+                if ($user->needsBreak($currentSet, $setTotal)) {
                     $dataStore->addBreakForUser($user);
                 } else {
                     // Pick and store an exercise for this set
