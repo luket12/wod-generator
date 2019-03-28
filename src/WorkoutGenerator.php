@@ -2,6 +2,8 @@
 
 namespace Wod;
 
+use Wod\Models\User;
+
 /**
  * This class will generate the output for the workout of the day
  * Instantiates the users passed in
@@ -24,6 +26,7 @@ class WorkoutGenerator
         $users = $dataStore->getUsers();
 
         for ($currentSet = 1; $currentSet <= $setTotal; $currentSet++) {
+            /* @var $user User */
             foreach ($users as $user) {
                 $exercisePicker = new ExercisePicker($dataStore->getExercises());
 
