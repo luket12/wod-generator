@@ -125,4 +125,25 @@ class User
 
         return false;
     }
+
+
+    /**
+     * Add a break for this user
+     *
+     */
+    public function addBreak(): void
+    {
+        $this->workout->addBreak();
+    }
+
+    /**
+     * Adds an exercise set to the users workout
+     *
+     * @param Exercise $exercise
+     * @param $setNumber
+     */
+    public function addExerciseSet(Exercise $exercise, $setNumber): void
+    {
+        $this->workout->addWorkoutSet(new ExerciseSet($exercise, $setNumber));
+    }
 }

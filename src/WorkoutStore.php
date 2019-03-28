@@ -71,30 +71,4 @@ class WorkoutStore
 
         $this->exercises = $exercises;
     }
-
-    /**
-     * Add a break for this user
-     *
-     * @param User $user
-     */
-    public function addBreakForUser(User $user): void
-    {
-        $userWorkout = $user->getWorkout();
-
-        $userWorkout->addBreak();
-    }
-
-    /**
-     * Adds an exercise set to the users workout
-     *
-     * @param User $user
-     * @param Exercise $exercise
-     * @param $setNumber
-     */
-    public function addExerciseSetForUser(User $user, Exercise $exercise, $setNumber): void
-    {
-        $userWorkout = $user->getWorkout();
-
-        $userWorkout->addWorkoutSet(new ExerciseSet($exercise, $setNumber));
-    }
 }
