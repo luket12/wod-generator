@@ -2,6 +2,7 @@
 
 namespace Wod;
 
+use Wod\Interfaces\StoresWorkout;
 use Wod\Models\User;
 
 /**
@@ -16,17 +17,16 @@ class WorkoutGenerator
     /**
      * Generates the full data store, populating each user with exercises and breaks as well as set times
      *
-     * @param array $users
-     * @param array $exercises
-     * @return array $users The array containing users and their workout
+     * @param StoresWorkout $store
+     * @return StoresWorkout $users The array containing users and their workout
      */
-    public static function generate(array $users, array $exercises): array
+    public static function generate(StoresWorkout $store): StoresWorkout
     {
-        $exercisePicker = new ExercisePicker($exercises, $users);
+        $exercisePicker = new ExercisePicker($store->getExercises(), $store->getUsers());
 
         for ($currentSet = 1; $currentSet <= TOTALSETS; $currentSet++) {
             /** @var User $user */
-            foreach ($users as $user) {
+            foreach ($store->getUsers() as $user) {
                 // Check if a break is required before assigning an exercise
                 if ($user->needsBreak($currentSet)) {
                     $user->addBreakToWorkout();
@@ -39,6 +39,6 @@ class WorkoutGenerator
             }
         }
 
-        return $users;
+        return $store;
     }
 }

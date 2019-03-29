@@ -9,6 +9,7 @@ class UserTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp(): void
     {
+
         parent::setUp();
     }
 
@@ -24,15 +25,15 @@ class UserTest extends \PHPUnit\Framework\TestCase
 
         $firstSet = 1;
         $lastSet = 20;
-        $totalSetsA = 20;
+        define('TOTALSETS', 20);
 
         // Check no breaks are made at the start or end for advanced
-        $this->assertFalse($beginnerUser->needsBreak($firstSet, $totalSetsA));
-        $this->assertFalse($beginnerUser->needsBreak($lastSet, $totalSetsA));
+        $this->assertFalse($beginnerUser->needsBreak($firstSet, TOTALSETS));
+        $this->assertFalse($beginnerUser->needsBreak($lastSet, TOTALSETS));
 
         // Same checks for beginner
-        $this->assertFalse($advancedUser->needsBreak($firstSet, $totalSetsA));
-        $this->assertFalse($advancedUser->needsBreak($lastSet, $totalSetsA));
+        $this->assertFalse($advancedUser->needsBreak($firstSet, TOTALSETS));
+        $this->assertFalse($advancedUser->needsBreak($lastSet, TOTALSETS));
 
         // Check advanced users have 4 breaks
 

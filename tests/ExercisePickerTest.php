@@ -40,14 +40,19 @@ class ExercisePickerTest extends \PHPUnit\Framework\TestCase
         $exerciseOfTypeA = new Exercise('test', 'typeA', 0);
         $differentExercise = new Exercise('differentType', 'typeB', 0);
 
+
         $workOutSets = [
             new ExerciseSet($exerciseOfTypeA, 1),
             new ExerciseSet($exerciseOfTypeA, 2),
         ];
 
+        $workout = new Workout($workOutSets);
+
+        $user = new User('testUser', 'beginner', $workout);
+
         // check the following exercise has chosen the other type of exercise
-        $this->assertNotEquals($exerciseOfTypeA, $exercisePicker->disallowDoubleExercisesOfType(3, $exerciseOfTypeA, $workOutSets, 'typeA'));
-        $this->assertEquals($differentExercise, $exercisePicker->disallowDoubleExercisesOfType(3, $differentExercise, $workOutSets, 'typeA'));
+        $this->assertNotEquals($exerciseOfTypeA, $exercisePicker->disallowDoubleExercisesOfType(3, $exerciseOfTypeA, $user, 'typeA'));
+        $this->assertEquals($differentExercise, $exercisePicker->disallowDoubleExercisesOfType(3, $differentExercise, $user, 'typeA'));
     }
 
     /**

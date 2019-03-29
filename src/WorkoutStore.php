@@ -2,9 +2,8 @@
 
 namespace Wod;
 
-use DateTime;
+use Wod\Interfaces\StoresWorkout;
 use Wod\Models\Exercise;
-use Wod\Models\ExerciseSet;
 use Wod\Models\User;
 use Wod\Models\Workout;
 
@@ -13,7 +12,7 @@ use Wod\Models\Workout;
  *
  * Class WorkoutStore
  */
-class WorkoutStore
+class WorkoutStore implements StoresWorkout
 {
     /**
      * @var
@@ -56,7 +55,7 @@ class WorkoutStore
      * @param array $userData
      * @param array $exerciseData
      */
-    public function setUpStore(array $userData, array $exerciseData): void
+    public function setUpStore($userData, $exerciseData): void
     {
         $users = [];
         foreach ($userData as $user) {

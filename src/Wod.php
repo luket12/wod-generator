@@ -5,6 +5,7 @@ namespace Wod;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DateTime;
+use Wod\Interfaces\StoresWorkout;
 
 /**
  *
@@ -18,9 +19,9 @@ class Wod
     /**
      * Outputs the workout of the day for the generated workout
      *
-     * @param array $workoutUsers
+     * @param StoresWorkout $store
      */
-    public static function output(array $workoutUsers)
+    public static function output(StoresWorkout $store)
     {
         $workoutStartTime = self::roundUpToMinuteInterval(Carbon::now(), 10);
 
@@ -35,12 +36,13 @@ class Wod
             $endTime = $startTime->copy()->add(CarbonInterval::seconds(SETINSECONDS));
 
             // Build the user exercise workout string for this set and append it to the main string
-            foreach ($workoutUsers as $key => $user) {
+            foreach ($store->getUsers() as $key => $user) {
+                /** @var User $user */
                 $exercise = $user->getExerciseSetFromWorkout($setNumber);
 
                 $exercise = ($exercise !== false) ? $exercise->getExercise()->getName() : 'Break';
 
-                $usersExercisesForSet .= "{$user->getName()} is on {$exercise}" . self::addUserDividerToOutput($workoutUsers, $key);
+                $usersExercisesForSet .= "{$user->getName()} is on {$exercise}" . self::addUserDividerToOutput($store->getUsers(), $key);
             }
 
             // Output the exercises for this set

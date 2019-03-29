@@ -34,8 +34,7 @@ if (!defined('STDIN')) {
     define('TOTALSETS', (int) $argv[1]);
     define('SETINSECONDS', (int) $argv[2]);
 }
-
 // Generate a workout, from the workout data store, and simply output it
 $workoutDataStore = new WorkoutStore($userData, $exerciseData);
-$generatedWorkout = WorkoutGenerator::generate($workoutDataStore->getUsers(), $workoutDataStore->getExercises());
+$generatedWorkout = WorkoutGenerator::generate($workoutDataStore);
 Wod::output($generatedWorkout);
