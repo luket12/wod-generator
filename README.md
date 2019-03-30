@@ -1,4 +1,4 @@
-# Wod Generator
+# Workout of the Day Generator
 
 
 ## Instructions
